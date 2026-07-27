@@ -1,0 +1,2 @@
+# Proyecto1_springsena
+Proyecto sprintboot con la tecnologia jdbc para conectarse a mysql con buenas practicas de desarollo, encriptacion de datos, arquitectura de microservicios, consumo de apis con fecth, validacion de datos en el front end y en el backend, programacion por capas, documentacion de codigo, pruebas de la api con postman, paginacion de datos. fecha de entrega 24 de agosto, sustentacion
