@@ -1,11 +1,22 @@
 package Parqueadero.entity;
 
 public class Vehiculo {
-    protected long id;
-    protected String placa;
-    protected String marca;
-    protected String modelo;
-    protected String propetario;
+    private long id;
+    private String placa;
+    private String marca;
+    private String modelo;
+    private String propetario;
+
+    public Vehiculo() {
+    }
+
+    public Vehiculo(long id, String propetario, String modelo, String marca, String placa) {
+        this.id = id;
+        this.propetario = propetario;
+        this.modelo = modelo;
+        this.marca = marca;
+        this.placa = placa;
+    }
 
     public void setId(long idM) {
         id = idM;
