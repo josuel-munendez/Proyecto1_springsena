@@ -2,7 +2,17 @@ package Parqueadero.businesslogic;
 
 import Parqueadero.entity.Vehiculo;
 
+import Parqueadero.repository.VehiculoRepository;
+
 public class BLVehiculo {
+    private final VehiculoRepository vr;
+
+    public BLVehiculo() {
+    }
+    public BLVehiculo(VehiculoRepository vr) {
+        this.vr = vr;
+    }
+
     public boolean validarVehiculo(long id, String placa, String modelo) {
         return false;
     }
@@ -16,13 +26,14 @@ public class BLVehiculo {
                     } else {
                         System.out.println("Modelo vacio");
                     }
-                } else {                    // ← este else corresponde al if de placa,
-                    // pero está dentro del if de marca (falta cerrar antes)
-                    System.out.println("Placa incompleta");
+                } else {
+                    System.out.println("Sin Marca");
                 }
             } else {
-                System.out.println("Datos vacios");
+                System.out.println("Placa incompleta");
             }
+        } else {
+            System.out.println("Datos vacios");
         }
 
         /* Correccion con Codigo Limpio: */
@@ -51,5 +62,21 @@ public class BLVehiculo {
 
             /*return true;*/
         return false;
+    }
+
+    public boolean eliminarVehiculo(String placa){
+        if (placa.length() == 6){
+            return vr.eliminarVehiculo(placa);
+        }
+        return false;
+    }
+
+
+    public Vehiculo consultarVehiculo(String placa){
+        if (placa.length() == 6){
+            return vr.consultarVehiculo(placa);
+        }else {
+            return null;
+        }
     }
 }
