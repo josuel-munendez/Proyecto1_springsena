@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD Productos - JDBC</title>
+    <style>
+        /* --- Estilos básicos del frontend (iguales a los de Usuarios) --- */
+        body { font-family: Arial, sans-serif; margin: 40px; background: #f5f7fa; }
+        h1 { color: #2c3e50; }
+        .navegacion { margin-bottom: 15px; }
+        .contenedor { display: flex; gap: 30px; flex-wrap: wrap; }
+        .tarjeta { background: #fff; padding: 20px; border-radius: 8px;
+                   box-shadow: 0 2px 6px rgba(0,0,0,0.1); flex: 1; min-width: 300px; }
+        input, button { padding: 8px; margin: 4px 0; width: 100%; box-sizing: border-box; }
+        input[type="checkbox"] { width: auto; }
+        button { background: #3498db; color: #fff; border: none; cursor: pointer; }
+        button.eliminar { background: #e74c3c; }
+        button.actualizar { background: #27ae60; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background: #ecf0f1; }
+        .mensaje { margin-top: 10px; padding: 8px; border-radius: 4px; display: none; }
+        .ok { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+
+    <h1>CRUD de Productos (Spring Boot + JDBC)</h1>
+
+    <!-- Se muestra el mensaje de resultado de cada operación -->
+    <div id="mensaje" class="mensaje"></div>
+
+    <div class="contenedor">
+
+        <!-- FORMULARIO para crear / actualizar -->
+        <div class="tarjeta">
+            <h2>Formulario Producto</h2>
+
+            <input type="hidden" id="id" placeholder="id (auto)">
+            <label>Nombre</label>
+            <input type="text" id="nombre" placeholder="Nombre del producto">
+            <label>Descripción</label>
+            <input type="text" id="descripcion" placeholder="Descripción corta">
+            <label>Precio base ($)</label>
+            <input type="number" id="precioBase" step="0.01" min="0" placeholder="Precio base">
+            <label>
+                <input type="checkbox" id="activo" checked> Activo (disponible para la venta)
+            </label>
+            <label>
+                <input type="checkbox" id="aprobado"> Aprobado (pasó control de calidad)
+            </label>
+            <!-- Las fechas NO se editan aquí: las genera MySQL automáticamente. -->
+
+            <button onclick="guardar()">Guardar Producto</button>
+            <button onclick="cancelarEdicion()" style="background:#95a5a6;">Cancelar Edición</button>
+        </div>
+
+        <!-- TABLA con la lista de productos -->
+        <div class="tarjeta">
+            <h2>Catálogo de Productos</h2>
+            <button onclick="listar()">Actualizar Lista</button>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th><th>Nombre</th><th>Descripción</th>
+                        <th>Precio</th><th>Activo</th><th>Aprobado</th>
+                        <th>Creado</th><th>Actualizado</th><th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="tablaBody"></tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <script>
+        /* ================================================================
+         *  CAPA DE VISTA / FRONTEND — consumo de la API con FETCH
+         * ================================================================
+         *  Este archivo es la "Vista" del patrón MVC/MVT adaptada a una
+         *  API REST: HTML estático + datos en JSON desde el microservicio
+         *  de productos (puerto 8082).
+         *
+         *  TECNOLOGÍAS Y CONCEPTOS:
+         *   - fetch(): API nativa del navegador para peticiones HTTP (AJAX)
+         *     sin recargar la página. Puente frontend↔backend.
+         *   - async/await sobre PROMESAS: código asíncrono legible; el
+         *     navegador no se congela mientras espera la respuesta.
+         *   - JSON: JSON.stringify() serializa el objeto JS para el body;
+         *     res.json() deserializa la respuesta del servidor.
+         *   - DOM: getElementById/createElement/innerHTML pintan la tabla
+         *     en vivo con los datos recibidos.
+         *
+         *  BUENA PRÁCTICA — SEPARACIÓN FRONTEND/BACKEND:
+         *  El frontend solo conoce URLs y JSON (el contrato REST). No sabe
+         *  nada de Java ni de MySQL, así que cada lado evoluciona libre.
+         * ================================================================ */
+
+        /**
+         * URL raíz de la API. Coincide con @RequestMapping("/api/productos")
+         * del ControllerProducto. Puerto 8082 = este microservicio.
+         */
+        const BASE_URL = "http://localhost:8082/api/productos";
+
+        // --- Mostrar mensaje de éxito o error en pantalla ---
+        function mostrarMensaje(texto, esError) {
+            const m = document.getElementById("mensaje");
+            m.textContent = texto;
+            m.className = "mensaje " + (esError ? "error" : "ok");
+            m.style.display = "block";
+            setTimeout(() => m.style.display = "none", 3000);
+        }
+
+        // --- VALIDACIÓN en el frontend (antes de llamar a la API) ---
+        function validarFormulario(producto) {
+            if (!producto.nombre || producto.nombre.trim().length === 0) {
+                mostrarMensaje("El nombre es obligatorio", true);
+                return false;
+            }
+            if (producto.precioBase < 0) {
+                mostrarMensaje("El precio no puede ser negativo", true);
+                return false;
+            }
+            return true; // si pasa, se envía al backend (que valida OTRA vez)
+        }
+
+        // --- LISTAR (GET) ---
+        async function listar() {
+            try {
+                const res = await fetch(BASE_URL);
+                const productos = await res.json();
+
+                const cuerpo = document.getElementById("tablaBody");
+                cuerpo.innerHTML = "";
+
+                // Construimos una fila por cada producto con sus botones.
+                productos.forEach(p => {
+                    const fila = document.createElement("tr");
+                    fila.innerHTML = `
+                        <td>${p.id}</td>
+                        <td>${p.nombre}</td>
+                        <td>${p.descripcion ?? ""}</td>
+                        <td>$${Number(p.precioBase).toLocaleString("es-CO")}</td>
+                        <td>${p.activo ? "Sí" : "No"}</td>
+                        <td>${p.aprobado ? "Sí" : "No"}</td>
+                        <td>${p.fechaCreacion ?? ""}</td>
+                        <td>${p.fechaActualizacion ?? ""}</td>
+                        <td>
+                            <button class="actualizar" onclick="editar(${p.id})">Editar</button>
+                            <button class="eliminar" onclick="eliminar(${p.id})">Eliminar</button>
+                        </td>`;
+                    cuerpo.appendChild(fila);
+                });
+            } catch (e) {
+                mostrarMensaje("Error al listar: " + e.message, true);
+            }
+        }
+
+        // --- GUARDAR (POST) y ACTUALIZAR (PUT) ---
+        async function guardar() {
+            // Recogemos los valores del formulario en un objeto JS.
+            const producto = {
+                id: document.getElementById("id").value || null,
+                nombre: document.getElementById("nombre").value,
+                descripcion: document.getElementById("descripcion").value,
+                precioBase: parseFloat(document.getElementById("precioBase").value) || 0,
+                activo: document.getElementById("activo").checked,
+                aprobado: document.getElementById("aprobado").checked
+            };
+
+            // Validación en el frontend antes de gastar la petición.
+            if (!validarFormulario(producto)) return;
+
+            // Si hay id es una ACTUALIZACIÓN (PUT), si no, es un ALTA (POST).
+            const esNuevo = producto.id === null;
+
+            try {
+                const res = await fetch(BASE_URL, {
+                    method: esNuevo ? "POST" : "PUT",   // verbo HTTP
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(producto)      // convertimos a JSON
+                });
+                const resultado = await res.json();
+
+                if (resultado) {
+                    mostrarMensaje(esNuevo ? "Producto creado" : "Producto actualizado", false);
+                    cancelarEdicion();
+                    listar();
+                } else {
+                    mostrarMensaje("No se pudo guardar (validación falló en el backend)", true);
+                }
+            } catch (e) {
+                mostrarMensaje("Error: " + e.message, true);
+            }
+        }
+
+        // --- ELIMINAR (DELETE) ---
+        async function eliminar(id) {
+            if (!confirm("¿Seguro que desea eliminar el producto " + id + "?")) return;
+
+            try {
+                const res = await fetch(BASE_URL + "/" + id, { method: "DELETE" });
+                const resultado = await res.json();
+
+                if (resultado) {
+                    mostrarMensaje("Producto eliminado", false);
+                    listar();
+                } else {
+                    mostrarMensaje("No se pudo eliminar", true);
+                }
+            } catch (e) {
+                mostrarMensaje("Error: " + e.message, true);
+            }
+        }
+
+        // --- CARGAR los datos de un producto en el formulario para editarlo ---
+        async function editar(id) {
+            try {
+                const res = await fetch(BASE_URL + "/" + id);
+                const p = await res.json();
+
+                document.getElementById("id").value = p.id;
+                document.getElementById("nombre").value = p.nombre;
+                document.getElementById("descripcion").value = p.descripcion ?? "";
+                document.getElementById("precioBase").value = p.precioBase;
+                document.getElementById("activo").checked = p.activo;
+                document.getElementById("aprobado").checked = p.aprobado;
+            } catch (e) {
+                mostrarMensaje("Error al cargar: " + e.message, true);
+            }
+        }
+
+        // --- Limpiar el formulario (cancelar edición) ---
+        function cancelarEdicion() {
+            document.getElementById("id").value = "";
+            document.getElementById("nombre").value = "";
+            document.getElementById("descripcion").value = "";
+            document.getElementById("precioBase").value = "";
+            document.getElementById("activo").checked = true;
+            document.getElementById("aprobado").checked = false;
+        }
+
+        // Al cargar la página, mostramos los productos existentes.
+        listar();
+    </script>
+
+</body>
+</html>
