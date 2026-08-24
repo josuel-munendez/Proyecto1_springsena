@@ -29,8 +29,8 @@ El proyecto contiene **3 microservicios independientes**, cada uno con su propio
 
 | Microservicio | Directorio | Puerto | Controlador | Ruta Base |
 |---|---|---|---|---|
-| `ms-parqueadero` | `demo/` | 8080 | `ControllerVehiculo` | `/ControllerVehiculo` |
-| `ms-usuarios` | `beta/` | 8081 | `UsuarioController` | `/api/usuarios` |
+| `ms-parqueadero` | `vehiculos/` | 8080 | `ControllerVehiculo` | `/ControllerVehiculo` |
+| `ms-usuarios` | `usuarios/` | 8081 | `UsuarioController` | `/api/usuarios` |
 | `ms-productos` | `productos/` | 8082 | `ControllerProducto` | `/api/productos` |
 
 **Dependencia Maven común:** `spring-boot-starter-webmvc` — trae implícitamente:
@@ -56,8 +56,8 @@ Marca la clase como manejadora de peticiones HTTP REST. Es equivalente a `@Contr
 
 | Controlador | Archivo | Línea |
 |---|---|---|
-| `ControllerVehiculo` | `demo/.../controler/ControllerVehiculo.java` | `@RestController("")` |
-| `UsuarioController` | `beta/.../controler/UsuarioController.java` | `@RestController` |
+| `ControllerVehiculo` | `vehiculos/.../controller/ControllerVehiculo.java` | `@RestController("")` |
+| `UsuarioController` | `usuarios/.../controller/UsuarioController.java` | `@RestController` |
 | `ControllerProducto` | `productos/.../controler/ControllerProducto.java` | `@RestController` |
 
 > **Nota:** `@Controller` (sin "Rest") **no se usa** en ningún controlador del proyecto.
@@ -265,7 +265,7 @@ GET /ControllerVehiculo/consultar?placa=XYZ789
 
 ## 6. Endpoints Expuestos (Rutas)
 
-### ms-usuarios (beta) — Puerto 8081
+### ms-usuarios (usuarios) — Puerto 8081
 
 | Método | Ruta | Descripción | Ejemplo Body JSON |
 |---|---|---|---|
@@ -285,7 +285,7 @@ GET /ControllerVehiculo/consultar?placa=XYZ789
 | `PUT` | `/api/productos` | Actualiza un producto existente | `{"id":1,"nombre":"Laptop","precioBase":2000000}` |
 | `DELETE` | `/api/productos/{id}` | Elimina un producto por ID | — |
 
-### ms-parqueadero (demo) — Puerto 8080
+### ms-parqueadero (vehiculos) — Puerto 8080
 
 | Método | Ruta | Descripción | Parámetros |
 |---|---|---|---|
@@ -362,11 +362,11 @@ public List<Usuario> listar() {
 
 | Tipo de retorno | Controladores | Ejemplo |
 |---|---|---|
-| `void` | demo | `deleteVehiculo()` — respuesta vacía |
-| `Vehiculo` (objeto directo) | demo | `consultarVehiculo()` — un objeto |
-| `List<Usuario>` | beta | `listar()` — array de objetos |
-| `Usuario` | beta | `obtener()` — un objeto |
-| `boolean` | beta + productos | `guardar()`, `actualizar()`, `eliminar()` — true/false |
+| `void` | vehiculos | `deleteVehiculo()` — respuesta vacía |
+| `Vehiculo` (objeto directo) | vehiculos | `consultarVehiculo()` — un objeto |
+| `List<Usuario>` | usuarios | `listar()` — array de objetos |
+| `Usuario` | usuarios | `obtener()` — un objeto |
+| `boolean` | usuarios + productos | `guardar()`, `actualizar()`, `eliminar()` — true/false |
 | `List<Producto>` | productos | `listar()` — array de objetos |
 | `Producto` | productos | `obtener()` — un objeto |
 
@@ -387,7 +387,7 @@ public List<Usuario> listar() {
 
 Los 3 controladores crean sus dependencias de Business Logic **manualmente** con `new` en el constructor. **No se usa `@Autowired` en ningún sitio del proyecto.**
 
-**UsuarioController (beta):**
+**UsuarioController (usuarios):**
 ```java
 private final UsuarioBL bl;          // campo final, inmutable
 
@@ -407,7 +407,7 @@ public ControllerProducto() {
 ```
 Archivo: `ControllerProducto.java:57-62`
 
-**ControllerVehiculo (demo):**
+**ControllerVehiculo (vehiculos):**
 ```java
 // Crea una NUEVA instancia del BL en CADA petición (patrón diferente):
 public void deleteVehiculo(@RequestParam String placa){
@@ -440,7 +440,7 @@ La validación se implementa de forma **manual** en la capa de Business Logic us
 | `UsuarioController` | `UsuarioBL` | `validarUsuario(Usuario u)` | BL L77 | Objeto no nulo, nombre obligatorio, correo obligatorio, saldo >= 0 |
 | `ControllerProducto` | `BLProducto` | `validarProducto(Producto p)` | BL L78 | Objeto no nulo, nombre obligatorio, precio >= 0 |
 
-**Controlador `demo` también tiene validación inline:**
+**Controlador `vehiculos` también tiene validación inline:**
 ```java
 // ControllerVehiculo.java:75
 if (placa.length() == 6) {    // validación rápida de formato
@@ -554,7 +554,7 @@ Todos los endpoints trabajan con `application/json`:
 | `@Autowired` | Campo/Constructor | Inyección de dependencias por Spring IoC |
 | `@ResponseStatus` | Clase/Método | Asocia un código HTTP específico a un método |
 | `@Scope` | Clase | Define el ciclo de vida del bean (singleton, prototype...) |
-| `@ComponentScan` | Clase (solo en demo) | Escanea paquetes externos para beans |
+| `@ComponentScan` | Clase (solo en vehiculos) | Escanea paquetes externos para beans |
 | `ResponseEntity` | Tipo de retorno | Control manual de status, headers y body |
 | `@ControllerAdvice` | Clase | Manejo global de excepciones |
 | `@ExceptionHandler` | Método | Captura excepciones específicas del controlador |
