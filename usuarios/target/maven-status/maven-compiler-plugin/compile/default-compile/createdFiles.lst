@@ -1,5 +1,0 @@
-com\usuarios\models\Usuario.class
-com\usuarios\UsuariosApplication.class
-com\usuarios\businesslogic\UsuarioBL.class
-com\usuarios\controler\UsuarioController.class
-com\usuarios\persistence\UsuarioPersistency.class
