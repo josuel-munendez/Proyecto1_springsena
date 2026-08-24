@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "notas/Séptimo Semestre/Clase 4/Clase 4.md",
+                "file": "notas/Séptimo Semestre/Clase 1/Clase 1.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Clase 4"
+              "title": "Clase 1"
             }
           }
         ],
@@ -202,25 +202,29 @@
   },
   "active": "f569cd76e987c11f",
   "lastOpenFiles": [
+    "notas/Séptimo Semestre/Clase 3/WhatsApp Image 2026-08-10 at 6.17.24 PM.jpeg",
+    "demo/src/test/java/springsena/demo/DemoApplicationTests.java",
+    "demo/src/main/java/springsena/demo/DemoApplication.java",
+    "demo/src/main/java/Parqueadero/repository/VehiculoRepository.java",
+    "demo/src/main/java/Parqueadero/entity/Vehiculo.java",
+    "demo/src/main/java/Parqueadero/controler/ControllerVehiculo.java",
+    "demo/src/main/java/Parqueadero/businesslogic/BLVehiculo.java",
+    "demo/src/test/java/springsena/demo",
+    "demo/src/main/java/springsena/demo",
+    "demo/src/main/java/Parqueadero/repository",
+    "demo/src/main/java/Parqueadero/ParqueaderoApplication.java",
+    "demo/ERROR_BLVehiculo.md",
+    "WhatsApp Image 2026-08-10 at 6.17.24 PM.jpeg",
+    "notas/Séptimo Semestre/Clase 4/Clase 4.md",
+    "notas/Séptimo Semestre/Clase 1/Clase 1.md",
+    "notas/Séptimo Semestre/Clase 1/Pasted image 20260727150132.png",
+    "notas/Séptimo Semestre/Clase 3/Clase 3.md",
+    "vehiculos/ERROR_BLVehiculo.md",
+    "vehiculos/HELP.md",
     "docs/SPRING_REST_DOCUMENTATION.md",
     "SPRING_REST_DOCUMENTATION.md",
     "notas/Séptimo Semestre/TAREAS_PENDIENTES.md",
-    "notas/Séptimo Semestre/Clase 4/Clase 4.md",
-    "notas/Séptimo Semestre/Clase 4",
-    "notas/Séptimo Semestre/Clase 3/Clase 3.md",
-    "WhatsApp Image 2026-08-10 at 6.17.24 PM.jpeg",
     "notas/Séptimo Semestre/Clase 2/Clase 2.md",
-    "demo/target/classes/Parqueadero/businesslogic/BLVehiculo.class",
-    "demo/target/classes/Parqueadero/businesslogic",
-    "demo/target/classes/Parqueadero/controler/ControllerVehiculo.class",
-    "demo/target/classes/Parqueadero/controler",
-    "demo/target/classes/Parqueadero/repository/VehiculoRepository.class",
-    "demo/target/classes/Parqueadero/repository",
-    "demo/target/classes/springsena/demo/DemoApplication.class",
-    "demo/target/classes/springsena/demo",
-    "demo/target/classes/springsena",
-    "notas/Séptimo Semestre/Clase 1/Clase 1.md",
-    "notas/Séptimo Semestre/Clase 1/Pasted image 20260727150132.png",
     "README.md"
   ]
 }
