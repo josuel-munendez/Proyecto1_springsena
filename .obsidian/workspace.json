@@ -41,7 +41,9 @@
               "type": "file-explorer",
               "state": {
                 "sortOrder": "alphabetical",
-                "autoReveal": false
+                "autoReveal": false,
+                "showSearch": false,
+                "searchQuery": ""
               },
               "icon": "lucide-folder-closed",
               "title": "Explorador de archivos"
@@ -185,12 +187,12 @@
   },
   "active": "aba1431467c27c1f",
   "lastOpenFiles": [
+    "demo/target/classes/Parqueadero/businesslogic/BLVehiculo.class",
+    "demo/target/classes/Parqueadero/businesslogic",
     "demo/target/classes/Parqueadero/controler/ControllerVehiculo.class",
     "demo/target/classes/Parqueadero/controler",
     "demo/target/classes/Parqueadero/repository/VehiculoRepository.class",
     "demo/target/classes/Parqueadero/repository",
-    "demo/target/classes/Parqueadero/businesslogic/BLVehiculo.class",
-    "demo/target/classes/Parqueadero/businesslogic",
     "demo/target/classes/springsena/demo/DemoApplication.class",
     "demo/target/classes/springsena/demo",
     "demo/target/classes/springsena",

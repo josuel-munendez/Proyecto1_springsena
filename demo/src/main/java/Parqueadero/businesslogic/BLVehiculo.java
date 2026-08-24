@@ -8,8 +8,6 @@ public class BLVehiculo {
     private final VehiculoRepository vr;
 
     public BLVehiculo() {
-    }
-    public BLVehiculo(VehiculoRepository vr) {
         this.vr = vr;
     }
 
