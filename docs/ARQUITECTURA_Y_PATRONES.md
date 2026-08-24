@@ -10,8 +10,8 @@
 
 | Microservicio | Carpeta | Tecnología | Puerto | Base de datos | Tabla |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **ms-parqueadero** (Vehículos) | `demo/` | Capas + Repository | 8080 | — (stub) | vehiculo* |
-| **ms-usuarios** | `beta/` | Spring Boot + JDBC puro | 8081 | `mi_base_datos` | usuario |
+| **ms-parqueadero** (Vehículos) | `vehiculos/` | Capas + Repository | 8080 | — (stub) | vehiculo* |
+| **ms-usuarios** | `usuarios/` | Spring Boot + JDBC puro | 8081 | `mi_base_datos` | usuario |
 | **ms-productos** | `productos/` | Spring Boot + JDBC puro | 8082 | `db_productos` | producto |
 
 \* El repositorio del Parqueadero es un *stub*: permite probar las capas superiores mientras la persistencia real se implementa.
@@ -145,13 +145,13 @@ Esto produce:
 
 ```bash
 # 1) Crear las bases de datos (una sola vez):
-#    - ejecutar beta/src/main/resources/schema.sql      → mi_base_datos
+#    - ejecutar usuarios/src/main/resources/schema.sql  → mi_base_datos
 #    - ejecutar productos/src/main/resources/schema.sql → db_productos
 
 # 2) Arrancar (cada uno en su terminal):
-cd beta      && ./mvnw spring-boot:run   # http://localhost:8081
+cd usuarios && ./mvnw spring-boot:run   # http://localhost:8081
 cd productos && ./mvnw spring-boot:run   # http://localhost:8082
-cd demo      && ./mvnw spring-boot:run   # http://localhost:8080
+cd vehiculos && ./mvnw spring-boot:run   # http://localhost:8080
 
 # 3) Abrir en el navegador la raíz de cada puerto (index.html)
 #    y/o probar la API desde Postman:
