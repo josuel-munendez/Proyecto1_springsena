@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalle del Vehículo</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .detalle { border: 1px solid #ddd; padding: 20px; border-radius: 8px; max-width: 400px; }
+        .detalle p { margin: 10px 0; }
+        .detalle strong { display: inline-block; width: 120px; }
+        .btn { padding: 8px 20px; text-decoration: none; border-radius: 4px; border: none; cursor: pointer; font-size: 14px; display: inline-block; margin-top: 15px; }
+        .btn-editar { background-color: #ff9800; color: white; }
+        .btn-volver { background-color: #888; color: white; }
+    </style>
+</head>
+<body>
+    <h1>Detalle del Vehículo</h1>
+
+    <div class="detalle">
+        <p><strong>ID:</strong> <span th:text="${vehiculo.id}"></span></p>
+        <p><strong>Placa:</strong> <span th:text="${vehiculo.placa}"></span></p>
+        <p><strong>Marca:</strong> <span th:text="${vehiculo.marca}"></span></p>
+        <p><strong>Modelo:</strong> <span th:text="${vehiculo.modelo}"></span></p>
+        <p><strong>Propietario:</strong> <span th:text="${vehiculo.propetario}"></span></p>
+    </div>
+
+    <a th:href="@{/vehiculos/{id}/editar(id=${vehiculo.id})}" class="btn btn-editar">Editar</a>
+    <a th:href="@{/vehiculos}" class="btn btn-volver">Volver a la lista</a>
+</body>
+</html>

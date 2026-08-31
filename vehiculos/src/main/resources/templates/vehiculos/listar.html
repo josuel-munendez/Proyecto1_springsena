@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Vehículos</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #4CAF50; color: white; }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+        .btn { padding: 5px 12px; text-decoration: none; border-radius: 4px; border: none; cursor: pointer; font-size: 14px; }
+        .btn-nuevo { background-color: #4CAF50; color: white; }
+        .btn-ver { background-color: #2196F3; color: white; }
+        .btn-editar { background-color: #ff9800; color: white; }
+        .btn-eliminar { background-color: #f44336; color: white; }
+        .msg-exito { color: green; font-weight: bold; }
+        .msg-error { color: red; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>Vehículos del Parqueadero</h1>
+
+    <p th:if="${exito}" class="msg-exito" th:text="${exito}"></p>
+    <p th:if="${error}" class="msg-error" th:text="${error}"></p>
+
+    <a th:href="@{/vehiculos/nuevo}" class="btn btn-nuevo">+ Nuevo Vehículo</a>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Placa</th>
+                <th>Marca</th>
+                <th>Modelo</th>
+                <th>Propietario</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="v : ${vehiculos}">
+                <td th:text="${v.id}"></td>
+                <td th:text="${v.placa}"></td>
+                <td th:text="${v.marca}"></td>
+                <td th:text="${v.modelo}"></td>
+                <td th:text="${v.propetario}"></td>
+                <td>
+                    <a th:href="@{/vehiculos/{id}(id=${v.id})}" class="btn btn-ver">Ver</a>
+                    <a th:href="@{/vehiculos/{id}/editar(id=${v.id})}" class="btn btn-editar">Editar</a>
+                    <form th:action="@{/vehiculos/{id}/eliminar(id=${v.id})}" method="post" style="display:inline"
+                          onsubmit="return confirm('¿Eliminar este vehículo?')">
+                        <button type="submit" class="btn btn-eliminar">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p th:if="${#lists.isEmpty(vehiculos)}">No hay vehículos registrados.</p>
+</body>
+</html>

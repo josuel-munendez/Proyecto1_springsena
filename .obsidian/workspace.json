@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "notas/Séptimo Semestre/Clase 1/Clase 1.md",
+                "file": "notas/Séptimo Semestre/Clase 4/Clase 4.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Clase 1"
+              "title": "Clase 4"
             }
           }
         ],
@@ -202,30 +202,28 @@
   },
   "active": "f569cd76e987c11f",
   "lastOpenFiles": [
-    "usuarios/pom.xml",
-    "usuarios/mvnw.cmd",
-    "usuarios/mvnw",
-    "vehiculos/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst",
-    "vehiculos/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst",
     "vehiculos/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst",
     "vehiculos/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst",
-    "vehiculos/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile",
+    "vehiculos/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst",
+    "vehiculos/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst",
     "vehiculos/target/maven-status/maven-compiler-plugin/compile/default-compile",
+    "vehiculos/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile",
     "vehiculos/target/maven-status/maven-compiler-plugin/testCompile",
     "vehiculos/target/maven-status/maven-compiler-plugin/compile",
+    "vehiculos/target/maven-status/maven-compiler-plugin",
+    "vehiculos/target/classes/application.properties",
+    "vehiculos/target/maven-status",
     "vehiculos/HELP.md",
-    "demo/ERROR_BLVehiculo.md",
-    "WhatsApp Image 2026-08-10 at 6.17.24 PM.jpeg",
-    "vehiculos/ERROR_BLVehiculo.md",
     "notas/Séptimo Semestre/Clase 3/WhatsApp Image 2026-08-10 at 6.17.24 PM.jpeg",
-    "notas/Séptimo Semestre/Clase 4/Clase 4.md",
-    "notas/Séptimo Semestre/Clase 1/Clase 1.md",
-    "notas/Séptimo Semestre/Clase 1/Pasted image 20260727150132.png",
-    "notas/Séptimo Semestre/Clase 3/Clase 3.md",
     "docs/SPRING_REST_DOCUMENTATION.md",
     "SPRING_REST_DOCUMENTATION.md",
     "notas/Séptimo Semestre/TAREAS_PENDIENTES.md",
+    "notas/Séptimo Semestre/Clase 4/Clase 4.md",
+    "notas/Séptimo Semestre/Clase 3/Clase 3.md",
+    "WhatsApp Image 2026-08-10 at 6.17.24 PM.jpeg",
     "notas/Séptimo Semestre/Clase 2/Clase 2.md",
+    "notas/Séptimo Semestre/Clase 1/Clase 1.md",
+    "notas/Séptimo Semestre/Clase 1/Pasted image 20260727150132.png",
     "README.md"
   ]
 }

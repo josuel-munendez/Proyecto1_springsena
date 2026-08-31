@@ -1,66 +1,47 @@
 package Parqueadero.entity;
 
+import jakarta.persistence.*;
+
 /**
  * ══════════════════════════════════════════════════════════
- *  CAPA DE MODELO (Entidad) — Módulo Vehículos / Parqueadero
+ *  CAPA DE MODELO (Entidad JPA) — Módulo Vehículos / Parqueadero
  * ══════════════════════════════════════════════════════════
  *
- * Representa UN vehículo del parqueadero: es el objeto con el que
- * el resto de las capas trabaja en memoria (nunca viaja SQL hacia
- * el Controller ni HTML hacia el negocio).
+ * Representa UN vehículo del parqueadero. Ahora es una entidad JPA
+ * que se mapea directamente a una tabla en la base de datos.
  *
- * QUÉ ES UN POJO: "Plain Old Java Object". Una clase Java normal,
- * SIN anotaciones de frameworks. Ventaja: se puede mover entre
- * proyectos o probar sin depender de Spring ni de la BD.
- *
- * PATRÓN JAVA BEAN: convención de la industria donde una entidad se
- * compone de atributos privados + constructor vacío + getters/setters
- * públicos. ¿Por qué importa? Porque herramientas como Jackson
- * (la librería que convierte JSON ↔ objetos en los controllers)
- * funcionan POR REFLEXIÓN leyendo esas convenciones: si un getter
- * no sigue el estándar, el JSON no se genera bien.
- *
- * BUENAS PRÁCTICAS APLICADAS:
- *  - ENCAPSULAMIENTO: atributos `private`; nadie fuera de la clase
- *    modifica el estado directamente, solo a través de setters.
- *    Esto protege invariantes (ej. que la placa no se corrompa).
- *  - Dos constructores: vacío (lo exige Jackson para crear el objeto
- *    antes de llenarlo) y completo (comodidad para pruebas).
+ * ANOTACIONES JPA:
+ *  - @Entity: indica que esta clase se persiste en la BD.
+ *  - @Table(name="vehiculos"): nombre de la tabla en la BD.
+ *  - @Id + @GeneratedValue: marca la clave primaria autogenerada.
+ *  - @Column: define propiedades de cada columna.
  */
+@Entity
+@Table(name = "vehiculos")
 public class Vehiculo {
 
-    /** Identificador único autogenerado por la base de datos. */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    /** Placa del vehículo: 6 caracteres, es su identificador natural. */
+    @Column(nullable = false, length = 6, unique = true)
     private String placa;
 
-    /** Marca comercial (Renault, Mazda, etc.). Obligatoria. */
+    @Column(nullable = false)
     private String marca;
 
-    /** Modelo/año representado con 4 caracteres (ej. "2024"). */
+    @Column(nullable = false, length = 4)
     private String modelo;
 
-    /**
-     * Nombre del dueño del vehículo.
-     * Nota: el nombre tiene un typo histórico ("propetario") que se
-     * conserva para no romper el resto del código visto en clase;
-     * lo correcto sería "propietario".
-     */
+    @Column(nullable = false)
     private String propetario;
 
-    /** Constructor vacío: requerido por frameworks (Jackson, ORMs). */
+    /** Constructor vacío: requerido por JPA y Jackson. */
     public Vehiculo() {
     }
 
     /**
-     * Constructor completo: crea un vehículo ya inicializado.
-     *
-     * @param id         identificador autogenerado.
-     * @param propetario nombre del dueño.
-     * @param modelo     modelo/año (4 caracteres).
-     * @param marca      marca comercial.
-     * @param placa      placa (6 caracteres).
+     * Constructor completo.
      */
     public Vehiculo(long id, String propetario, String modelo, String marca, String placa) {
         this.id = id;

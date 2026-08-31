@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${vehiculo.id > 0} ? 'Editar Vehículo' : 'Nuevo Vehículo'">Formulario</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; font-weight: bold; margin-bottom: 5px; }
+        input { padding: 8px; width: 300px; border: 1px solid #ccc; border-radius: 4px; }
+        .btn { padding: 8px 20px; text-decoration: none; border-radius: 4px; border: none; cursor: pointer; font-size: 14px; }
+        .btn-guardar { background-color: #4CAF50; color: white; }
+        .btn-cancelar { background-color: #888; color: white; }
+    </style>
+</head>
+<body>
+    <h1 th:text="${vehiculo.id > 0} ? 'Editar Vehículo' : 'Nuevo Vehículo'">Formulario</h1>
+
+    <form th:action="@{/vehiculos/guardar}" method="post">
+        <input type="hidden" th:field="*{vehiculo.id}" />
+
+        <div class="form-group">
+            <label for="placa">Placa (6 caracteres)</label>
+            <input type="text" id="placa" th:field="*{vehiculo.placa}" maxlength="6" required
+                   pattern=".{6}" title="Debe tener exactamente 6 caracteres" />
+        </div>
+
+        <div class="form-group">
+            <label for="marca">Marca</label>
+            <input type="text" id="marca" th:field="*{vehiculo.marca}" required />
+        </div>
+
+        <div class="form-group">
+            <label for="modelo">Modelo/Año (4 caracteres)</label>
+            <input type="text" id="modelo" th:field="*{vehiculo.modelo}" maxlength="4" required
+                   pattern=".{4}" title="Debe tener exactamente 4 caracteres" />
+        </div>
+
+        <div class="form-group">
+            <label for="propetario">Propietario</label>
+            <input type="text" id="propetario" th:field="*{vehiculo.propetario}" required />
+        </div>
+
+        <button type="submit" class="btn btn-guardar">Guardar</button>
+        <a th:href="@{/vehiculos}" class="btn btn-cancelar">Cancelar</a>
+    </form>
+</body>
+</html>
