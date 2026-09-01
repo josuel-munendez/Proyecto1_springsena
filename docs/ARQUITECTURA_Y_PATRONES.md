@@ -10,11 +10,13 @@
 
 | Microservicio | Carpeta | Tecnología | Puerto | Base de datos | Tabla |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **ms-parqueadero** (Vehículos) | `vehiculos/` | Capas + Repository | 8080 | — (stub) | vehiculo* |
+| **ms-parqueadero** (Vehículos) | `vehiculos/` | Capas + JPA/Repository | 8080 | H2 (memoria) | vehiculos |
 | **ms-usuarios** | `usuarios/` | Spring Boot + JDBC puro | 8081 | `mi_base_datos` | usuario |
 | **ms-productos** | `productos/` | Spring Boot + JDBC puro | 8082 | `db_productos` | producto |
 
-\* El repositorio del Parqueadero es un *stub*: permite probar las capas superiores mientras la persistencia real se implementa.
+> **Nota de consistencia:** `vehiculos` usa **JPA / Spring Data** (`JpaRepository`) y vistas
+> **Thymeleaf** (MVC), a diferencia de usuarios/productos (JDBC puro + `fetch`). Detalle en
+> `SPRING_REST_DOCUMENTATION.md` (sección 14) y `MICROSERVICIOS.md`.
 
 **¿Por qué son microservicios?** Cada uno es un proyecto Maven independiente con su propio proceso, su propio puerto y su propia base de datos (**patrón Database-per-Service**). Si uno cae, los demás siguen vivos. La evidencia física de la separación: puertos distintos + BD distintas.
 
@@ -94,14 +96,14 @@ Esto produce:
 | :-- | :--- | :--- | :--- |
 | 1 | **MVC (Model-View-Controller)** | Toda la arquitectura | Separa datos (Model = entidad+persistencia+BL), interfaz (View = JSON + index.html) y control (Controller = @RestController). Cada cambio de interfaz no afecta los datos y viceversa. |
 | 2 | **Arquitectura en capas (n-tier)** | Los 4 paquetes por servicio | Cada responsabilidad vive en una capa con comunicación solo hacia la capa vecina. Facilita mantenimiento, pruebas y trabajo en equipo. |
-| 3 | **DAO (Data Access Object)** | `UsuarioPersistency`, `ProductoPersistence`, `VehiculoRepository` | Intermediario entre aplicación y BD: expone métodos del dominio (`guardarUsuario`) y oculta SQL/conexiones. Cambiar de motor de BD solo toca estas clases. |
+| 3 | **DAO / Repository** | `UsuarioPersistency`, `ProductoPersistence`, `VehiculoRepository` | Intermediario entre aplicación y BD. usuarios/productos usan DAO JDBC puro (`guardarUsuario`) y ocultan SQL/conexiones; `VehiculoRepository` es un **`JpaRepository`** de Spring Data (JPA) que Spring implementa automáticamente. Cambiar de motor de BD solo toca estas clases. |
 | 4 | **Front Controller** | `DispatcherServlet` de Spring MVC (implícito) | TODAS las peticiones entran por un único servlet "recepcionista" que consulta el mapa de rutas (`@RequestMapping`) y despacha al método handler correcto. Nosotros solo escribimos los handlers. |
 | 5 | **Inversión de Control (IoC) + Inyección de Dependencias** | Controllers y BLs | Las clases no buscan sus dependencias: las RECIBEN por constructor (`BLProducto(ProductoPersistence p)`). Beneficio: bajo acoplamiento y pruebas inyectando mocks. Spring automatiza esto con su contenedor (@Autowired); aquí se hizo manual para entender el fundamento. |
 | 6 | **Singleton (bean de Spring)** | Controllers | Spring crea UNA instancia por controller y la reutiliza en todas las peticiones. Por eso los controllers son sin estado (solo campos `final`): seguros ante concurrencia. |
 | 7 | **POJO / JavaBean** | Entidades | Convención atributos privados + constructores + getters/setters estándar. Jackson funciona POR REFLEXIÓN sobre esas convenciones: constructor vacío obligatorio para deserializar JSON. Getters booleanos `isActivo()` → clave `"activo"`. |
 | 8 | **Fachada (Facade), ligero** | Clases BL | Para el Controller el BL es una interfaz simple (guardar/listar...) que esconde el flujo validar→SQL. El controller no sabe que existen validaciones ni JDBC. |
-| 9 | **Database-per-Service** | Configuración de cada MS | Cada microservicio tiene SU base de datos exclusiva (mi_base_datos / db_productos). Desacopla los esquemas: nadie toca las tablas del otro. |
-| 10 | **Stub (placeholder)** | `VehiculoRepository` | Implementación temporal con datos fijos que permite desarrollar/probar capas superiores antes de tener la persistencia real. |
+| 9 | **Database-per-Service** | Configuración de cada MS | Cada microservicio tiene SU base de datos exclusiva (mi_base_datos / db_productos / H2). Desacopla los esquemas: nadie toca las tablas del otro. |
+| 10 | **Repository (Spring Data JPA)** | `VehiculoRepository` | Interfaz que extiende `JpaRepository`: Spring genera automáticamente la implementación (findAll, save, deleteById, findByPlaca). A diferencia del DAO JDBC de usuarios/productos, aquí no hay SQL manual. |
 
 ---
 
