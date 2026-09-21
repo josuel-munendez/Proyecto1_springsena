@@ -1,0 +1,360 @@
+[01;34m.[0m
+├── [01;34mbeta[0m
+│   ├── [01;32mHELP.md[0m
+│   ├── [01;34msrc[0m
+│   │   └── [01;34mmain[0m
+│   │       └── [01;34mresources[0m
+│   │           └── [01;34mtemplates[0m
+│   └── [01;34mtarget[0m
+│       ├── [01;34mclasses[0m
+│       │   ├── [01;32mapplication.properties[0m
+│       │   ├── [01;34mcom[0m
+│       │   │   └── [01;34musuarios[0m
+│       │   │       └── [01;34mbeta[0m
+│       │   │           ├── [01;32mBetaApplication.class[0m
+│       │   │           ├── [01;34mbusinesslogic[0m
+│       │   │           │   └── [01;32mUsuarioBL.class[0m
+│       │   │           ├── [01;34mcontroler[0m
+│       │   │           │   └── [01;32mUsuarioController.class[0m
+│       │   │           ├── [01;34mmodels[0m
+│       │   │           │   └── [01;32mUsuario.class[0m
+│       │   │           └── [01;34mpersistence[0m
+│       │   │               └── [01;32mUsuarioPersistency.class[0m
+│       │   ├── [01;32mschema.sql[0m
+│       │   └── [01;34mstatic[0m
+│       │       └── [01;32mindex.html[0m
+│       ├── [01;34mgenerated-sources[0m
+│       │   └── [01;34mannotations[0m
+│       └── [01;34mmaven-status[0m
+│           └── [01;34mmaven-compiler-plugin[0m
+│               └── [01;34mcompile[0m
+│                   └── [01;34mdefault-compile[0m
+│                       ├── [01;32mcreatedFiles.lst[0m
+│                       └── [01;32minputFiles.lst[0m
+├── [01;34mdemo[0m
+│   ├── [01;34msrc[0m
+│   │   └── [01;34mmain[0m
+│   │       └── [01;34mresources[0m
+│   │           └── [01;34mstatic[0m
+│   └── [01;34mtarget[0m
+│       ├── [01;34mclasses[0m
+│       │   ├── [01;32mapplication.properties[0m
+│       │   ├── [01;34mcom[0m
+│       │   │   └── [01;34mexample[0m
+│       │   │       └── [01;34mdemo_mysql[0m
+│       │   │           ├── [01;34mbusinesslogic[0m
+│       │   │           ├── [01;34mcontroler[0m
+│       │   │           ├── [01;34mmodels[0m
+│       │   │           └── [01;34mpersistence[0m
+│       │   ├── [01;34mParqueadero[0m
+│       │   │   ├── [01;34mbusinesslogic[0m
+│       │   │   │   └── [01;32mBLVehiculo.class[0m
+│       │   │   ├── [01;34mcontroler[0m
+│       │   │   │   └── [01;32mControllerVehiculo.class[0m
+│       │   │   ├── [01;34mentity[0m
+│       │   │   │   └── [01;32mVehiculo.class[0m
+│       │   │   ├── [01;32mParqueaderoApplication.class[0m
+│       │   │   └── [01;34mrepository[0m
+│       │   │       └── [01;32mVehiculoRepository.class[0m
+│       │   ├── [01;34mRED[0m
+│       │   │   └── [01;34mproductos[0m
+│       │   │       └── [01;34mcatalogo[0m
+│       │   ├── [01;32mschema.sql[0m
+│       │   ├── [01;34mspringsena[0m
+│       │   │   └── [01;34mdemo[0m
+│       │   │       └── [01;32mDemoApplication.class[0m
+│       │   └── [01;34mstatic[0m
+│       │       └── [01;32mindex.html[0m
+│       ├── [01;34mgenerated-sources[0m
+│       │   └── [01;34mannotations[0m
+│       └── [01;34mmaven-status[0m
+│           └── [01;34mmaven-compiler-plugin[0m
+│               └── [01;34mcompile[0m
+│                   └── [01;34mdefault-compile[0m
+│                       ├── [01;32mcreatedFiles.lst[0m
+│                       └── [01;32minputFiles.lst[0m
+├── [01;34mdocs[0m
+│   ├── [01;32mARQUITECTURA_Y_PATRONES.md[0m
+│   ├── [01;32mGUIA_DE_INSTALACION.md[0m
+│   ├── [01;32mMICROSERVICIOS.md[0m
+│   ├── [01;32mROADMAP_Y_PENDIENTES.md[0m
+│   ├── [01;32mSPRING_REST_DOCUMENTATION.md[0m
+│   └── [01;32mTESTING_POSTMAN.md[0m
+├── [01;34mnotas[0m
+│   ├── [01;34mSéptimo Semestre[0m
+│   │   ├── [01;34mClase 1[0m
+│   │   │   ├── [01;32mClase 1.md[0m
+│   │   │   └── [01;32mPasted image 20260727150132.png[0m
+│   │   ├── [01;34mClase 2[0m
+│   │   │   └── [01;32mClase 2.md[0m
+│   │   ├── [01;34mClase 3[0m
+│   │   │   ├── [01;32mClase 3.md[0m
+│   │   │   └── [01;32mWhatsApp Image 2026-08-10 at 6.17.24 PM.jpeg[0m
+│   │   ├── [01;34mClase 4[0m
+│   │   │   └── [01;32mClase 4.md[0m
+│   │   └── [01;32mTAREAS_PENDIENTES.md[0m
+│   └── [01;34mSexto Semestre[0m
+│       ├── [01;34mclase 1[0m
+│       │   ├── [01;32mPasted image 20260504131418.png[0m
+│       │   ├── [01;32mPasted image 20260504131437.png[0m
+│       │   ├── [01;32mPasted image 20260504131503.png[0m
+│       │   ├── [01;32mPasted image 20260504131629.png[0m
+│       │   └── [01;32mSpring Boot.md[0m
+│       ├── [01;34mclase 2[0m
+│       │   ├── [01;32mAPIs y microservicios.md[0m
+│       │   └── [01;32mPasted image 20260504131925.png[0m
+│       ├── [01;34mclase 3[0m
+│       │   └── [01;32mClase 3.md[0m
+│       └── [01;34mclase 4[0m
+│           └── [01;32mClase 4.md[0m
+├── [01;34mpostman[0m
+│   ├── MS-Parqueadero.postman_collection.json
+│   ├── MS-Productos.postman_collection.json
+│   └── MS-Usuarios.postman_collection.json
+├── [01;34mproductos[0m
+│   ├── [01;32mmvnw[0m
+│   ├── [01;32mmvnw.cmd[0m
+│   ├── [01;32mpom.xml[0m
+│   ├── [01;32mREADME.md[0m
+│   ├── [01;34msrc[0m
+│   │   ├── [01;34mmain[0m
+│   │   │   ├── [01;34mjava[0m
+│   │   │   │   └── [01;34mcom[0m
+│   │   │   │       └── [01;34mproductos[0m
+│   │   │   │           ├── [01;34mbusinesslogic[0m
+│   │   │   │           │   ├── [01;32mBLProducto.java[0m
+│   │   │   │           │   └── [01;32mIProductoBL.java[0m
+│   │   │   │           ├── [01;34mconfig[0m
+│   │   │   │           │   ├── [01;32mCorsConfig.java[0m
+│   │   │   │           │   └── RestTemplateConfig.java
+│   │   │   │           ├── [01;34mcontroler[0m
+│   │   │   │           │   └── [01;32mControllerProducto.java[0m
+│   │   │   │           ├── [01;34mmodels[0m
+│   │   │   │           │   └── [01;32mProducto.java[0m
+│   │   │   │           ├── [01;34mpersistence[0m
+│   │   │   │           │   └── [01;32mProductoPersistence.java[0m
+│   │   │   │           ├── [01;32mProductosApplication.java[0m
+│   │   │   │           ├── [01;34msecurity[0m
+│   │   │   │           │   └── [01;32mPasswordService.java[0m
+│   │   │   │           └── [01;34mservice[0m
+│   │   │   │               └── InterServiceClient.java
+│   │   │   └── [01;34mresources[0m
+│   │   │       ├── [01;32mapplication.properties[0m
+│   │   │       ├── [01;32mschema.sql[0m
+│   │   │       └── [01;34mstatic[0m
+│   │   │           └── [01;32mindex.html[0m
+│   │   └── [01;34mtest[0m
+│   │       └── [01;34mjava[0m
+│   │           └── [01;34mcom[0m
+│   │               └── [01;34mproductos[0m
+│   │                   └── [01;32mProductosApplicationTests.java[0m
+│   └── [01;34mtarget[0m
+│       ├── [01;34mclasses[0m
+│       │   ├── [01;32mapplication.properties[0m
+│       │   ├── [01;34mcom[0m
+│       │   │   └── [01;34mproductos[0m
+│       │   │       ├── [01;34mbusinesslogic[0m
+│       │   │       │   ├── BLProducto.class
+│       │   │       │   └── IProductoBL.class
+│       │   │       ├── [01;34mconfig[0m
+│       │   │       │   ├── CorsConfig$1.class
+│       │   │       │   ├── CorsConfig.class
+│       │   │       │   └── RestTemplateConfig.class
+│       │   │       ├── [01;34mcontroler[0m
+│       │   │       │   └── ControllerProducto.class
+│       │   │       ├── [01;34mmodels[0m
+│       │   │       │   └── Producto.class
+│       │   │       ├── [01;34mpersistence[0m
+│       │   │       │   └── ProductoPersistence.class
+│       │   │       ├── ProductosApplication.class
+│       │   │       ├── [01;34msecurity[0m
+│       │   │       │   └── PasswordService.class
+│       │   │       └── [01;34mservice[0m
+│       │   │           └── InterServiceClient.class
+│       │   ├── [01;32mschema.sql[0m
+│       │   └── [01;34mstatic[0m
+│       │       └── [01;32mindex.html[0m
+│       ├── [01;34mgenerated-sources[0m
+│       │   └── [01;34mannotations[0m
+│       ├── [01;34mmaven-status[0m
+│       │   └── [01;34mmaven-compiler-plugin[0m
+│       │       └── [01;34mcompile[0m
+│       │           └── [01;34mdefault-compile[0m
+│       │               ├── [01;32mcreatedFiles.lst[0m
+│       │               └── [01;32minputFiles.lst[0m
+│       └── [01;34mtest-classes[0m
+│           └── [01;34mcom[0m
+│               └── [01;34mproductos[0m
+│                   └── [01;32mProductosApplicationTests.class[0m
+├── Proyecto1_springsena_STRUCTURE.md
+├── [01;32mREADME.md[0m
+├── [01;34musuarios[0m
+│   ├── [01;32mmvnw[0m
+│   ├── [01;32mmvnw.cmd[0m
+│   ├── [01;32mpom.xml[0m
+│   ├── [01;32mREADME.md[0m
+│   ├── [01;34msrc[0m
+│   │   ├── [01;34mmain[0m
+│   │   │   ├── [01;34mjava[0m
+│   │   │   │   └── [01;34mcom[0m
+│   │   │   │       └── [01;34musuarios[0m
+│   │   │   │           ├── [01;34mbusinesslogic[0m
+│   │   │   │           │   ├── [01;32mIUsuarioBL.java[0m
+│   │   │   │           │   └── [01;32mUsuarioBL.java[0m
+│   │   │   │           ├── [01;34mconfig[0m
+│   │   │   │           │   ├── [01;32mCorsConfig.java[0m
+│   │   │   │           │   └── RestTemplateConfig.java
+│   │   │   │           ├── [01;34mcontroller[0m
+│   │   │   │           │   └── [01;32mUsuarioController.java[0m
+│   │   │   │           ├── [01;34mmodels[0m
+│   │   │   │           │   └── [01;32mUsuario.java[0m
+│   │   │   │           ├── [01;34mpersistence[0m
+│   │   │   │           │   └── [01;32mUsuarioPersistency.java[0m
+│   │   │   │           ├── [01;34msecurity[0m
+│   │   │   │           │   └── [01;32mPasswordService.java[0m
+│   │   │   │           ├── [01;34mservice[0m
+│   │   │   │           │   └── InterServiceClient.java
+│   │   │   │           └── [01;32mUsuariosApplication.java[0m
+│   │   │   └── [01;34mresources[0m
+│   │   │       ├── [01;32mapplication.properties[0m
+│   │   │       ├── [01;32mschema.sql[0m
+│   │   │       └── [01;34mstatic[0m
+│   │   │           └── [01;32mindex.html[0m
+│   │   └── [01;34mtest[0m
+│   │       └── [01;34mjava[0m
+│   │           └── [01;34mcom[0m
+│   │               └── [01;34musuarios[0m
+│   │                   └── [01;32mUsuariosApplicationTests.java[0m
+│   └── [01;34mtarget[0m
+│       ├── [01;34mclasses[0m
+│       │   ├── [01;32mapplication.properties[0m
+│       │   ├── [01;34mcom[0m
+│       │   │   └── [01;34musuarios[0m
+│       │   │       ├── [01;34mbusinesslogic[0m
+│       │   │       │   ├── IUsuarioBL.class
+│       │   │       │   └── [01;32mUsuarioBL.class[0m
+│       │   │       ├── [01;34mconfig[0m
+│       │   │       │   ├── CorsConfig$1.class
+│       │   │       │   ├── CorsConfig.class
+│       │   │       │   └── RestTemplateConfig.class
+│       │   │       ├── [01;34mcontroller[0m
+│       │   │       │   └── [01;32mUsuarioController.class[0m
+│       │   │       ├── [01;34mmodels[0m
+│       │   │       │   └── [01;32mUsuario.class[0m
+│       │   │       ├── [01;34mpersistence[0m
+│       │   │       │   └── [01;32mUsuarioPersistency.class[0m
+│       │   │       ├── [01;34msecurity[0m
+│       │   │       │   └── PasswordService.class
+│       │   │       ├── [01;34mservice[0m
+│       │   │       │   └── InterServiceClient.class
+│       │   │       └── [01;32mUsuariosApplication.class[0m
+│       │   ├── [01;32mschema.sql[0m
+│       │   └── [01;34mstatic[0m
+│       │       └── [01;32mindex.html[0m
+│       ├── [01;34mgenerated-sources[0m
+│       │   └── [01;34mannotations[0m
+│       ├── [01;34mmaven-status[0m
+│       │   └── [01;34mmaven-compiler-plugin[0m
+│       │       └── [01;34mcompile[0m
+│       │           └── [01;34mdefault-compile[0m
+│       │               ├── createdFiles.lst
+│       │               └── inputFiles.lst
+│       └── [01;34mtest-classes[0m
+│           └── [01;34mcom[0m
+│               └── [01;34musuarios[0m
+│                   └── [01;32mUsuariosApplicationTests.class[0m
+└── [01;34mvehiculos[0m
+    ├── [01;32mERROR_BLVehiculo.md[0m
+    ├── [01;32mmvnw[0m
+    ├── [01;32mmvnw.cmd[0m
+    ├── [01;32mpom.xml[0m
+    ├── [01;32mREADME.md[0m
+    ├── [01;34msrc[0m
+    │   ├── [01;34mmain[0m
+    │   │   ├── [01;34mjava[0m
+    │   │   │   ├── [01;34mParqueadero[0m
+    │   │   │   │   ├── [01;34mbusinesslogic[0m
+    │   │   │   │   │   ├── [01;32mBLVehiculo.java[0m
+    │   │   │   │   │   └── [01;32mIBLVehiculo.java[0m
+    │   │   │   │   ├── [01;34mconfig[0m
+    │   │   │   │   │   ├── [01;32mCorsConfig.java[0m
+    │   │   │   │   │   └── RestTemplateConfig.java
+    │   │   │   │   ├── [01;34mcontroller[0m
+    │   │   │   │   │   └── [01;32mControllerVehiculo.java[0m
+    │   │   │   │   ├── [01;34mentity[0m
+    │   │   │   │   │   └── [01;32mVehiculo.java[0m
+    │   │   │   │   ├── [01;32mParqueaderoApplication.java[0m
+    │   │   │   │   ├── [01;34mrepository[0m
+    │   │   │   │   │   └── [01;32mVehiculoRepository.java[0m
+    │   │   │   │   ├── [01;34msecurity[0m
+    │   │   │   │   │   └── [01;32mPasswordService.java[0m
+    │   │   │   │   └── [01;34mservice[0m
+    │   │   │   │       └── InterServiceClient.java
+    │   │   │   └── [01;34mspringsena[0m
+    │   │   │       └── [01;34mvehiculos[0m
+    │   │   │           └── [01;32mVehiculosApplication.java[0m
+    │   │   └── [01;34mresources[0m
+    │   │       ├── [01;32mapplication.properties[0m
+    │   │       └── [01;34mtemplates[0m
+    │   │           └── [01;34mvehiculos[0m
+    │   │               ├── [01;32mdetalle.html[0m
+    │   │               ├── [01;32mformulario.html[0m
+    │   │               └── [01;32mlistar.html[0m
+    │   └── [01;34mtest[0m
+    │       └── [01;34mjava[0m
+    │           └── [01;34mspringsena[0m
+    │               └── [01;34mvehiculos[0m
+    │                   └── [01;32mVehiculosApplicationTests.java[0m
+    └── [01;34mtarget[0m
+        ├── [01;34mclasses[0m
+        │   ├── [01;32mapplication.properties[0m
+        │   ├── [01;34mParqueadero[0m
+        │   │   ├── [01;34mbusinesslogic[0m
+        │   │   │   ├── BLVehiculo.class
+        │   │   │   └── IBLVehiculo.class
+        │   │   ├── [01;34mconfig[0m
+        │   │   │   ├── CorsConfig$1.class
+        │   │   │   ├── CorsConfig.class
+        │   │   │   └── RestTemplateConfig.class
+        │   │   ├── [01;34mcontroller[0m
+        │   │   │   └── ControllerVehiculo.class
+        │   │   ├── [01;34mentity[0m
+        │   │   │   └── Vehiculo.class
+        │   │   ├── ParqueaderoApplication.class
+        │   │   ├── [01;34mrepository[0m
+        │   │   │   └── VehiculoRepository.class
+        │   │   ├── [01;34msecurity[0m
+        │   │   │   └── PasswordService.class
+        │   │   └── [01;34mservice[0m
+        │   │       └── InterServiceClient.class
+        │   ├── [01;34mspringsena[0m
+        │   │   └── [01;34mvehiculos[0m
+        │   │       └── VehiculosApplication.class
+        │   └── [01;34mtemplates[0m
+        │       └── [01;34mvehiculos[0m
+        │           ├── [01;32mdetalle.html[0m
+        │           ├── [01;32mformulario.html[0m
+        │           └── [01;32mlistar.html[0m
+        ├── [01;34mgenerated-sources[0m
+        │   └── [01;34mannotations[0m
+        ├── [01;34mgenerated-test-sources[0m
+        │   └── [01;34mtest-annotations[0m
+        ├── [01;34mmaven-status[0m
+        │   └── [01;34mmaven-compiler-plugin[0m
+        │       ├── [01;34mcompile[0m
+        │       │   └── [01;34mdefault-compile[0m
+        │       │       ├── [01;32mcreatedFiles.lst[0m
+        │       │       └── [01;32minputFiles.lst[0m
+        │       └── [01;34mtestCompile[0m
+        │           └── [01;34mdefault-testCompile[0m
+        │               ├── [01;32mcreatedFiles.lst[0m
+        │               └── [01;32minputFiles.lst[0m
+        ├── [01;34msurefire-reports[0m
+        │   ├── [01;32mspringsena.vehiculos.VehiculosApplicationTests.txt[0m
+        │   └── [01;32mTEST-springsena.vehiculos.VehiculosApplicationTests.xml[0m
+        └── [01;34mtest-classes[0m
+            └── [01;34mspringsena[0m
+                └── [01;34mvehiculos[0m
+                    └── [01;32mVehiculosApplicationTests.class[0m
+
+195 directories, 163 files
