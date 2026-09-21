@@ -2,6 +2,7 @@ package com.productos;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 
 /**
  * Microservicio de PRODUCTOS (ms-productos).
@@ -13,6 +14,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * Frontend: src/main/resources/static/index.html (consume la API con fetch).
  */
 @SpringBootApplication
+@ComponentScan(basePackages = {"com.productos"})
 public class ProductosApplication {
 
 	public static void main(String[] args) {

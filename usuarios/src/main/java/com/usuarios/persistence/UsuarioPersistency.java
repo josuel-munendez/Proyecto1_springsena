@@ -222,6 +222,44 @@ public class UsuarioPersistency {
     }
 
     /**
+     * READ paginado — Devuelve una página de usuarios.
+     *
+     * @param pagina número de página (1-indexed).
+     * @param tamanio cantidad de registros por página.
+     * @return lista de usuarios de la página solicitada.
+     */
+    public List<Usuario> listarPaginado(int pagina, int tamanio) {
+
+        List<Usuario> usuarios = new ArrayList<>();
+
+        int offset = (pagina - 1) * tamanio;
+
+        String sql = """
+                SELECT id, nombre, direccion, telefono, correo, saldo
+                FROM usuario
+                LIMIT ? OFFSET ?
+                """;
+
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setInt(1, tamanio);
+            statement.setInt(2, offset);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    usuarios.add(mapearFila(resultSet));
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return usuarios;
+    }
+
+    /**
      * TRADUCTOR fila ↔ objeto (helper privado).
      *
      * BUENA PRÁCTICA — DRY (Don't Repeat Yourself): convertir un

@@ -36,7 +36,7 @@ import java.util.List;
  * porque el frontend se puede saltar (Postman, curl). El backend jamás
  * confía ciegamente en el cliente.
  */
-public class BLProducto {
+public class BLProducto implements IProductoBL {
 
     /**
      * Dependencia de acceso a datos. `final` → se inicializa en TODOS
@@ -168,5 +168,17 @@ public class BLProducto {
             return null;
         }
         return persistence.obtenerProducto(id);
+    }
+
+    /**
+     * READ paginado — Lista productos con paginación.
+     *
+     * @param pagina número de página (1-indexed).
+     * @param tamanio cantidad de registros por página.
+     * @return lista de productos de la página solicitada.
+     */
+    @Override
+    public List<Producto> listarPaginado(int pagina, int tamanio) {
+        return persistence.listarPaginado(pagina, tamanio);
     }
 }

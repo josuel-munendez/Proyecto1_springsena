@@ -36,7 +36,7 @@ import com.usuarios.persistence.UsuarioPersistency;
  * curl, un atacante): el backend nunca debe confiar ciegamente en
  * lo que le llega.
  */
-public class UsuarioBL {
+public class UsuarioBL implements IUsuarioBL {
 
     /**
      * Dependencia de acceso a datos. `final` → obliga a inicializarla
@@ -171,5 +171,17 @@ public class UsuarioBL {
             return null;
         }
         return persistence.obtenerUsuario(id);
+    }
+
+    /**
+     * READ paginado — Lista usuarios con paginación.
+     *
+     * @param pagina número de página (1-indexed).
+     * @param tamanio cantidad de registros por página.
+     * @return lista de usuarios de la página solicitada.
+     */
+    @Override
+    public List<Usuario> listarPaginado(int pagina, int tamanio) {
+        return persistence.listarPaginado(pagina, tamanio);
     }
 }

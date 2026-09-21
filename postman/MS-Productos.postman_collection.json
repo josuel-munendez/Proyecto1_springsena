@@ -1,0 +1,111 @@
+{
+  "info": {
+    "name": "MS-Productos (8082)",
+    "description": "Colección Postman para el microservicio de Productos - Spring Boot + JDBC + MySQL",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8082"
+    }
+  ],
+  "item": [
+    {
+      "name": "Listar todos los productos",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/api/productos",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "productos"]
+        }
+      }
+    },
+    {
+      "name": "Obtener producto por ID",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/api/productos/1",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "productos", "1"]
+        }
+      }
+    },
+    {
+      "name": "Crear producto",
+      "request": {
+        "method": "POST",
+        "url": {
+          "raw": "{{baseUrl}}/api/productos",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "productos"]
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombre\": \"Camiseta Estampada\",\n  \"descripcion\": \"Camiseta 100% algodon con estampado personalizado\",\n  \"precioBase\": 45000,\n  \"activo\": true,\n  \"aprobado\": true,\n  \"password\": \"admin123\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Actualizar producto",
+      "request": {
+        "method": "PUT",
+        "url": {
+          "raw": "{{baseUrl}}/api/productos",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "productos"]
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"id\": 1,\n  \"nombre\": \"Camiseta Estampada Premium\",\n  \"descripcion\": \"Camiseta 100% algodon con estampado de alta calidad\",\n  \"precioBase\": 55000,\n  \"activo\": true,\n  \"aprobado\": true,\n  \"password\": \"admin456\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Eliminar producto",
+      "request": {
+        "method": "DELETE",
+        "url": {
+          "raw": "{{baseUrl}}/api/productos/1",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "productos", "1"]
+        }
+      }
+    },
+    {
+      "name": "Listar productos paginados",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/api/productos/paginado?page=1&size=5",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "productos", "paginado"],
+          "query": [
+            {
+              "key": "page",
+              "value": "1"
+            },
+            {
+              "key": "size",
+              "value": "5"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

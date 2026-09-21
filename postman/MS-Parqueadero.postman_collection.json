@@ -1,0 +1,122 @@
+{
+  "info": {
+    "name": "MS-Parqueadero (8080)",
+    "description": "Colección Postman para el microservicio de Vehículos/Parqueadero - Spring Boot + JPA + H2",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    }
+  ],
+  "item": [
+    {
+      "name": "MVC - Listar vehículos (HTML)",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/vehiculos",
+          "host": ["{{baseUrl}}"],
+          "path": ["vehiculos"]
+        }
+      }
+    },
+    {
+      "name": "REST - Listar todos los vehículos",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/vehiculos/api/vehiculos",
+          "host": ["{{baseUrl}}"],
+          "path": ["vehiculos", "api", "vehiculos"]
+        }
+      }
+    },
+    {
+      "name": "REST - Obtener vehículo por ID",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/vehiculos/api/vehiculos/1",
+          "host": ["{{baseUrl}}"],
+          "path": ["vehiculos", "api", "vehiculos", "1"]
+        }
+      }
+    },
+    {
+      "name": "REST - Crear vehículo",
+      "request": {
+        "method": "POST",
+        "url": {
+          "raw": "{{baseUrl}}/vehiculos/api/vehiculos",
+          "host": ["{{baseUrl}}"],
+          "path": ["vehiculos", "api", "vehiculos"]
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"placa\": \"ABC123\",\n  \"marca\": \"Toyota\",\n  \"modelo\": \"2023\",\n  \"propetario\": \"Carlos Garcia\"\n}"
+        }
+      }
+    },
+    {
+      "name": "REST - Actualizar vehículo",
+      "request": {
+        "method": "PUT",
+        "url": {
+          "raw": "{{baseUrl}}/vehiculos/api/vehiculos",
+          "host": ["{{baseUrl}}"],
+          "path": ["vehiculos", "api", "vehiculos"]
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"id\": 1,\n  \"placa\": \"ABC123\",\n  \"marca\": \"Toyota\",\n  \"modelo\": \"2024\",\n  \"propetario\": \"Carlos Garcia\"\n}"
+        }
+      }
+    },
+    {
+      "name": "REST - Eliminar vehículo",
+      "request": {
+        "method": "DELETE",
+        "url": {
+          "raw": "{{baseUrl}}/vehiculos/api/vehiculos/1",
+          "host": ["{{baseUrl}}"],
+          "path": ["vehiculos", "api", "vehiculos", "1"]
+        }
+      }
+    },
+    {
+      "name": "REST - Listar vehículos paginados",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/vehiculos/api/vehiculos/paginado?page=1&size=5",
+          "host": ["{{baseUrl}}"],
+          "path": ["vehiculos", "api", "vehiculos", "paginado"],
+          "query": [
+            {
+              "key": "page",
+              "value": "1"
+            },
+            {
+              "key": "size",
+              "value": "5"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

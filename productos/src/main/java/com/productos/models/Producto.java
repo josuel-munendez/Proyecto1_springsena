@@ -58,6 +58,9 @@ public class Producto {
     /** Última modificación — la refresca MySQL con ON UPDATE CURRENT_TIMESTAMP. Solo lectura. */
     private String fechaActualizacion;
 
+    /** Contraseña en texto plano (solo para envío desde frontend; se almacena hasheada). */
+    private String password;
+
     /**
      * Constructor vacío. Requerido por Jackson para deserializar
      * el JSON que envía el frontend (@RequestBody).
@@ -76,10 +79,11 @@ public class Producto {
      * @param aprobado           pasó control de calidad.
      * @param fechaCreacion      fecha de creación (la genera la BD).
      * @param fechaActualizacion última modificación (la genera la BD).
+     * @param password           contraseña en texto plano.
      */
     public Producto(Long id, String nombre, String descripcion, double precioBase,
                     boolean activo, boolean aprobado,
-                    String fechaCreacion, String fechaActualizacion) {
+                    String fechaCreacion, String fechaActualizacion, String password) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -88,6 +92,7 @@ public class Producto {
         this.aprobado = aprobado;
         this.fechaCreacion = fechaCreacion;
         this.fechaActualizacion = fechaActualizacion;
+        this.password = password;
     }
 
     /** @return identificador único del producto. */
@@ -168,5 +173,15 @@ public class Producto {
     /** @param fechaActualizacion asigna la fecha de actualización (mapeo). */
     public void setFechaActualizacion(String fechaActualizacion) {
         this.fechaActualizacion = fechaActualizacion;
+    }
+
+    /** @return contraseña en texto plano (solo para envío; no se serializa a JSON en respuestas). */
+    public String getPassword() {
+        return password;
+    }
+
+    /** @param password establece la contraseña en texto plano. */
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

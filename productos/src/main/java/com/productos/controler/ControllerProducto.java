@@ -120,4 +120,19 @@ public class ControllerProducto {
     public boolean eliminar(@PathVariable Long id) {
         return bl.eliminarProducto(id);
     }
+
+    /**
+     * GET /api/productos/paginado?page=1&size=10
+     * Devuelve una página de productos.
+     *
+     * @param page número de página (default 1).
+     * @param size cantidad por página (default 10).
+     * @return lista de productos de la página.
+     */
+    @GetMapping("/paginado")
+    public List<Producto> listarPaginado(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        return bl.listarPaginado(page, size);
+    }
 }

@@ -1,0 +1,111 @@
+{
+  "info": {
+    "name": "MS-Usuarios (8081)",
+    "description": "Colección Postman para el microservicio de Usuarios - Spring Boot + JDBC + MySQL",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8081"
+    }
+  ],
+  "item": [
+    {
+      "name": "Listar todos los usuarios",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/api/usuarios",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "usuarios"]
+        }
+      }
+    },
+    {
+      "name": "Obtener usuario por ID",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/api/usuarios/1",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "usuarios", "1"]
+        }
+      }
+    },
+    {
+      "name": "Crear usuario",
+      "request": {
+        "method": "POST",
+        "url": {
+          "raw": "{{baseUrl}}/api/usuarios",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "usuarios"]
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombre\": \"Juan Perez\",\n  \"direccion\": \"Calle 123\",\n  \"telefono\": 1234567,\n  \"correo\": \"juan@email.com\",\n  \"saldo\": 50000,\n  \"password\": \"miPassword123\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Actualizar usuario",
+      "request": {
+        "method": "PUT",
+        "url": {
+          "raw": "{{baseUrl}}/api/usuarios",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "usuarios"]
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"id\": 1,\n  \"nombre\": \"Juan Perez Actualizado\",\n  \"direccion\": \"Calle 456\",\n  \"telefono\": 7654321,\n  \"correo\": \"juan.nuevo@email.com\",\n  \"saldo\": 75000,\n  \"password\": \"nuevaPassword123\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Eliminar usuario",
+      "request": {
+        "method": "DELETE",
+        "url": {
+          "raw": "{{baseUrl}}/api/usuarios/1",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "usuarios", "1"]
+        }
+      }
+    },
+    {
+      "name": "Listar usuarios paginados",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/api/usuarios/paginado?page=1&size=5",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "usuarios", "paginado"],
+          "query": [
+            {
+              "key": "page",
+              "value": "1"
+            },
+            {
+              "key": "size",
+              "value": "5"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

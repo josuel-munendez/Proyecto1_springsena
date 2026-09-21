@@ -45,6 +45,9 @@ public class Usuario {
     /** Saldo de la cuenta en pesos. Nunca negativo (regla de negocio). */
     private int saldo;
 
+    /** Contraseña en texto plano (solo para envío desde frontend; se almacena hasheada). */
+    private String password;
+
     /**
      * Constructor vacío. Lo exige Jackson para deserializar el JSON
      * que envía el frontend (@RequestBody).
@@ -61,14 +64,16 @@ public class Usuario {
      * @param telefono  teléfono de contacto.
      * @param correo    correo electrónico.
      * @param saldo     saldo inicial (no negativo).
+     * @param password  contraseña en texto plano.
      */
-    public Usuario(Long id, String nombre, String direccion, int telefono, String correo, int saldo) {
+    public Usuario(Long id, String nombre, String direccion, int telefono, String correo, int saldo, String password) {
         this.id = id;
         this.nombre = nombre;
         this.direccion = direccion;
         this.telefono = telefono;
         this.correo = correo;
         this.saldo = saldo;
+        this.password = password;
     }
 
     /** @return el identificador único del usuario. */
@@ -129,5 +134,15 @@ public class Usuario {
     /** @param saldo establece el saldo (debe ser >= 0 según negocio). */
     public void setSaldo(int saldo) {
         this.saldo = saldo;
+    }
+
+    /** @return contraseña en texto plano (solo para envío; no se serializa a JSON en respuestas). */
+    public String getPassword() {
+        return password;
+    }
+
+    /** @param password establece la contraseña en texto plano. */
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

@@ -220,6 +220,45 @@ public class ProductoPersistence {
     }
 
     /**
+     * READ paginado — Devuelve una página de productos.
+     *
+     * @param pagina número de página (1-indexed).
+     * @param tamanio cantidad de registros por página.
+     * @return lista de productos de la página solicitada.
+     */
+    public List<Producto> listarPaginado(int pagina, int tamanio) {
+
+        List<Producto> productos = new ArrayList<>();
+
+        int offset = (pagina - 1) * tamanio;
+
+        String sql = """
+                SELECT id, nombre, descripcion, precio_base, activo, aprobado,
+                       fecha_creacion, fecha_actualizacion
+                FROM producto
+                LIMIT ? OFFSET ?
+                """;
+
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setInt(1, tamanio);
+            statement.setInt(2, offset);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    productos.add(mapearFila(resultSet));
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return productos;
+    }
+
+    /**
      * TRADUCTOR fila ↔ objeto (helper privado).
      *
      * BUENA PRÁCTICA — DRY (Don't Repeat Yourself): la conversión

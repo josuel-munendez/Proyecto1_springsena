@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.usuarios.businesslogic.UsuarioBL;
@@ -129,5 +130,20 @@ public class UsuarioController {
     @DeleteMapping("/{id}")
     public boolean eliminar(@PathVariable Long id) {
         return bl.eliminarUsuario(id);
+    }
+
+    /**
+     * GET /api/usuarios/paginado?page=1&size=10
+     * Devuelve una página de usuarios.
+     *
+     * @param page número de página (default 1).
+     * @param size cantidad por página (default 10).
+     * @return lista de usuarios de la página.
+     */
+    @GetMapping("/paginado")
+    public List<Usuario> listarPaginado(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        return bl.listarPaginado(page, size);
     }
 }

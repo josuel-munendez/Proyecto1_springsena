@@ -15,6 +15,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  *
  * @Controller: maneja peticiones y retorna nombres de vistas Thymeleaf.
  * Las vistas están en src/main/resources/templates/.
+ *
+ * Esta clase expone DOS interfaces:
+ *  - MVC (Thymeleaf): /vehiculos/* → vistas HTML renderizadas.
+ *  - REST (JSON): /api/vehiculos/* → endpoints REST para consumo
+ *    desde otros microservicios o el frontend JavaScript.
  */
 @Controller
 @RequestMapping("/vehiculos")
@@ -98,5 +103,66 @@ public class ControllerVehiculo {
             ra.addFlashAttribute("error", "No se pudo eliminar");
         }
         return "redirect:/vehiculos";
+    }
+
+    // ═══════════════════════════════════════════════════════
+    //  ENDPOINTS REST (JSON) — Para consumo inter-microservicios
+    // ═══════════════════════════════════════════════════════
+
+    /**
+     * GET /api/vehiculos — Lista todos los vehículos como JSON.
+     */
+    @GetMapping("/api/vehiculos")
+    @ResponseBody
+    public java.util.List<Vehiculo> listarApi() {
+        return bl.listarTodos();
+    }
+
+    /**
+     * GET /api/vehiculos/{id} — Devuelve un vehículo como JSON.
+     */
+    @GetMapping("/api/vehiculos/{id}")
+    @ResponseBody
+    public Vehiculo obtenerApi(@PathVariable long id) {
+        var vehiculo = bl.buscarPorId(id);
+        return vehiculo.orElse(null);
+    }
+
+    /**
+     * POST /api/vehiculos — Guarda un vehículo desde JSON.
+     */
+    @PostMapping("/api/vehiculos")
+    @ResponseBody
+    public Vehiculo guardarApi(@RequestBody Vehiculo vehiculo) {
+        return bl.guardar(vehiculo);
+    }
+
+    /**
+     * PUT /api/vehiculos — Actualiza un vehículo desde JSON.
+     */
+    @PutMapping("/api/vehiculos")
+    @ResponseBody
+    public Vehiculo actualizarApi(@RequestBody Vehiculo vehiculo) {
+        return bl.guardar(vehiculo);
+    }
+
+    /**
+     * DELETE /api/vehiculos/{id} — Elimina un vehículo.
+     */
+    @DeleteMapping("/api/vehiculos/{id}")
+    @ResponseBody
+    public boolean eliminarApi(@PathVariable long id) {
+        return bl.eliminar(id);
+    }
+
+    /**
+     * GET /api/vehiculos/paginado?page=1&size=10 — Lista paginada.
+     */
+    @GetMapping("/api/vehiculos/paginado")
+    @ResponseBody
+    public java.util.List<Vehiculo> listarPaginadoApi(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        return bl.listarPaginado(page, size);
     }
 }

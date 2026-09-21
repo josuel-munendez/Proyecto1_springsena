@@ -5,6 +5,10 @@ import Parqueadero.repository.VehiculoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -20,7 +24,7 @@ import java.util.Optional;
  * repositorio (ya no se crea manualmente con new).
  */
 @Service
-public class BLVehiculo {
+public class BLVehiculo implements IBLVehiculo {
 
     private final VehiculoRepository vr;
 
@@ -100,5 +104,19 @@ public class BLVehiculo {
             return false;
         }
         return true;
+    }
+
+    /**
+     * READ paginado — Lista vehículos con paginación usando Spring Data.
+     *
+     * @param pagina número de página (1-indexed).
+     * @param tamanio cantidad de registros por página.
+     * @return lista de vehículos de la página solicitada.
+     */
+    @Override
+    public List<Vehiculo> listarPaginado(int pagina, int tamanio) {
+        Pageable pageable = PageRequest.of(pagina - 1, tamanio);
+        Page<Vehiculo> page = vr.findAll(pageable);
+        return page.getContent();
     }
 }
