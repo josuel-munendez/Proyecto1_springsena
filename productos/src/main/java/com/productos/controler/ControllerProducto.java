@@ -2,9 +2,12 @@ package com.productos.controler;
 
 import com.productos.businesslogic.BLProducto;
 import com.productos.models.Producto;
+import com.productos.service.InterServiceClient;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * ══════════════════════════════════════════════════════════
@@ -55,10 +58,12 @@ public class ControllerProducto {
      * es singleton y SIN ESTADO, es segura ante peticiones concurrentes.
      */
     private final BLProducto bl;
+    private final InterServiceClient interService;
 
     /** Inyección manual por constructor (fundamento previo a @Autowired). */
-    public ControllerProducto() {
+    public ControllerProducto(InterServiceClient interService) {
         this.bl = new BLProducto();
+        this.interService = interService;
     }
 
     /**
@@ -134,5 +139,21 @@ public class ControllerProducto {
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "10") int size) {
         return bl.listarPaginado(page, size);
+    }
+
+    /**
+     * GET /api/productos/resumen
+     * Agrega datos de TODOS los microservicios: productos + usuarios + vehículos.
+     * Demuestra la arquitectura de microservicios: este endpoint consolida
+     * la información de los 3 servicios en una sola respuesta JSON.
+     */
+    @GetMapping("/resumen")
+    public Map<String, Object> resumen() {
+        Map<String, Object> resumen = new LinkedHashMap<>();
+        resumen.put("microservicio", "ms-productos");
+        resumen.put("productos", bl.listarProductos());
+        resumen.put("usuarios", interService.listarUsuarios());
+        resumen.put("vehiculos", interService.listarVehiculos());
+        return resumen;
     }
 }

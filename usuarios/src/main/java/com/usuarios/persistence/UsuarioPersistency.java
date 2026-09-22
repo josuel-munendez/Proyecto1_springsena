@@ -57,7 +57,7 @@ public class UsuarioPersistency {
      */
     private final String URL = "jdbc:mysql://localhost:3306/mi_base_datos";
     private final String USER = "root";
-    private final String PASSWORD = "123456";
+    private final String PASSWORD = "Root@12345";
 
     /**
      * CREATE — INSERTA un nuevo usuario en la tabla.

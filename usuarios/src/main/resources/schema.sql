@@ -19,6 +19,6 @@ CREATE TABLE IF NOT EXISTS usuario (
 
 -- Datos de prueba opcionales (password vacío por defecto; usar POST para crear con BCrypt).
 INSERT INTO usuario (nombre, direccion, telefono, correo, saldo, password) VALUES
-('Ana García',    'Calle 1 #2-3', 3105551234, 'ana@mail.com',   50000, ''),
-('Luis Pérez',    'Cra 4 #5-6',  3205559876, 'luis@mail.com',  120000, ''),
-('María López',   'Av 7 #8-9',   3005554321, 'maria@mail.com', 75000, '');
+('Ana García',    'Calle 1 #2-3', 31055512, 'ana@mail.com',   50000, ''),
+('Luis Pérez',    'Cra 4 #5-6',  32055598, 'luis@mail.com',  120000, ''),
+('María López',   'Av 7 #8-9',   30055543, 'maria@mail.com', 75000, '');

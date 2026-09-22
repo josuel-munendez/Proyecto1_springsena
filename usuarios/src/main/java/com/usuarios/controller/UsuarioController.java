@@ -14,6 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.usuarios.businesslogic.UsuarioBL;
 import com.usuarios.models.Usuario;
+import com.usuarios.service.InterServiceClient;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * ══════════════════════════════════════════════════════════
@@ -65,10 +69,12 @@ public class UsuarioController {
      * app; por eso la clase no guarda estado de peticiones (thread-safe).
      */
     private final UsuarioBL bl;
+    private final InterServiceClient interService;
 
     /** Inyección manual por constructor (fundamento previo a @Autowired). */
-    public UsuarioController() {
+    public UsuarioController(InterServiceClient interService) {
         this.bl = new UsuarioBL();
+        this.interService = interService;
     }
 
     /**
@@ -159,5 +165,21 @@ public class UsuarioController {
         String correo = body.get("correo");
         String password = body.get("password");
         return bl.login(correo, password);
+    }
+
+    /**
+     * GET /api/usuarios/resumen
+     * Agrega datos de TODOS los microservicios: usuarios + vehículos + productos.
+     * Demuestra la arquitectura de microservicios: este endpoint consolida
+     * la información de los 3 servicios en una sola respuesta JSON.
+     */
+    @GetMapping("/resumen")
+    public Map<String, Object> resumen() {
+        Map<String, Object> resumen = new LinkedHashMap<>();
+        resumen.put("microservicio", "ms-usuarios");
+        resumen.put("usuarios", bl.listarUsuarios());
+        resumen.put("vehiculos", interService.listarVehiculos());
+        resumen.put("productos", interService.listarProductos());
+        return resumen;
     }
 }
