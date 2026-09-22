@@ -13,7 +13,8 @@ de datos.
 ## 1. ¿Qué es este proyecto?
 
 Un conjunto de **microservicios independientes** (cada uno un proyecto Maven con su
-propio proceso, puerto y base de datos) que juntos implementan un CRUD por entidad:
+propio proceso, puerto y base de datos) que juntos implementan un CRUD por entidad,
+con **comunicación real entre servicios vía REST**:
 
 | Microservicio | Carpeta     | Tecnología              | Puerto | Base de datos | Vista            |
 | :------------ | :---------- | :---------------------- | :----- | :------------ | :--------------- |
@@ -26,6 +27,10 @@ Cada microservicio expone su **API REST** y su propio frontend, aplicando la
 
 ```
 Frontend → Controller → BL (Business Logic) → Persistence/Repository → BD
+                              ↓
+                    InterServiceClient (RestTemplate)
+                              ↓
+                    Otro microservicio (HTTP REST)
 ```
 
 ---
@@ -75,29 +80,60 @@ Abre en el navegador:
 
 ### ms-usuarios — `http://localhost:8081/api/usuarios`
 
-| Verbo  | Ruta                  | Body (POST/PUT) |
-| :----- | :-------------------- | :-------------- |
-| GET    | `/api/usuarios`       | — |
-| GET    | `/api/usuarios/{id}`  | — |
-| POST   | `/api/usuarios`       | `{ "nombre": "...", "direccion": "...", "telefono": 0, "correo": "...", "saldo": 0 }` |
-| PUT    | `/api/usuarios`       | igual al POST con `"id": 1` |
-| DELETE | `/api/usuarios/{id}`  | — |
+| Verbo  | Ruta                  | Body (POST/PUT) | Descripción |
+| :----- | :-------------------- | :-------------- | :---------- |
+| GET    | `/api/usuarios`       | — | Listar todos |
+| GET    | `/api/usuarios/{id}`  | — | Obtener por ID |
+| POST   | `/api/usuarios`       | `{ "nombre": "...", "correo": "...", "password": "..." }` | Crear (BCrypt hash) |
+| PUT    | `/api/usuarios`       | igual al POST con `"id": 1` | Actualizar |
+| DELETE | `/api/usuarios/{id}`  | — | Eliminar |
+| GET    | `/api/usuarios/paginado?page=1&size=10` | — | Paginado |
+| POST   | `/api/usuarios/login` | `{ "correo": "...", "password": "..." }` | Login BCrypt |
+| **GET** | **`/api/usuarios/resumen`** | **—** | **Consolida usuarios + vehículos + productos (cross-service)** |
 
 ### ms-productos — `http://localhost:8082/api/productos`
 
-| Verbo  | Ruta                  | Body (POST/PUT) |
-| :----- | :-------------------- | :-------------- |
-| GET    | `/api/productos`      | — |
-| GET    | `/api/productos/{id}` | — |
-| POST   | `/api/productos`      | `{ "nombre": "Cable HDMI", "descripcion": "2 m", "precioBase": 15000, "activo": true, "aprobado": false }` |
-| PUT    | `/api/productos`      | igual al POST con `"id": 1` |
-| DELETE | `/api/productos/{id}` | — |
+| Verbo  | Ruta                  | Body (POST/PUT) | Descripción |
+| :----- | :-------------------- | :-------------- | :---------- |
+| GET    | `/api/productos`      | — | Listar todos |
+| GET    | `/api/productos/{id}` | — | Obtener por ID |
+| POST   | `/api/productos`      | `{ "nombre": "Cable HDMI", "precioBase": 15000 }` | Crear |
+| PUT    | `/api/productos`      | igual al POST con `"id": 1` | Actualizar |
+| DELETE | `/api/productos/{id}` | — | Eliminar |
+| GET    | `/api/productos/paginado?page=1&size=10` | — | Paginado |
+| **GET** | **`/api/productos/resumen`** | **—** | **Consolida productos + usuarios + vehículos (cross-service)** |
 
-> Las fechas de `productos` (`fechaCreacion`, `fechaActualizacion`) las genera MySQL.
+### ms-parqueadero (Vehículos) — `http://localhost:8080/vehiculos`
 
-### ms-parqueadero (Vehículos) — web Thymeleaf en `http://localhost:8080/vehiculos`
+| Verbo  | Ruta                           | Body | Descripción |
+| :----- | :----------------------------- | :--- | :---------- |
+| GET    | `/vehiculos`                   | — | Vista Thymeleaf |
+| GET    | `/vehiculos/api/vehiculos`     | — | API REST JSON |
+| POST   | `/vehiculos/api/vehiculos`     | `{ "placa": "ABC123", "marca": "..." }` | Crear |
+| PUT    | `/vehiculos/api/vehiculos`     | — | Actualizar |
+| DELETE | `/vehiculos/api/vehiculos/{id}`| — | Eliminar |
+| GET    | `/vehiculos/api/vehiculos/paginado?page=1&size=10` | — | Paginado |
+| **GET** | **`/vehiculos/api/vehiculos/resumen`** | **—** | **Consolida vehículos + usuarios + productos (cross-service)** |
 
-Operaciones CRUD completas (listar, crear, ver, editar, eliminar) usando **JPA + Thymeleaf**.
+### Arquitectura de comunicación cross-service
+
+```
+                    ┌─────────────────────────────────────┐
+                    │        /resumen (cada servicio)     │
+                    │                                     │
+  ms-parqueadero ───┤──自身: vehículos (H2)               │
+     (8080)         │──→ ms-usuarios:   GET /api/usuarios │
+                    │──→ ms-productos:  GET /api/productos│
+                    └─────────────────────────────────────┘
+
+  Cada /resumen retorna JSON con los datos de los 3 servicios:
+  {
+    "microservicio": "ms-parqueadero",
+    "vehiculos": [...],    ← datos propios
+    "usuarios": [...],     ← obtenidos vía HTTP de ms-usuarios
+    "productos": [...]     ← obtenidos vía HTTP de ms-productos
+  }
+```
 
 ---
 
@@ -151,9 +187,13 @@ Cada microservicio incluye además su propio `README.md` y Javadoc en el código
 - **JDBC puro** (`DriverManager`, `PreparedStatement`, `ResultSet`) en usuario/productos
 - **JPA / Spring Data** en vehículos
 - **Thymeleaf** (vehículos) y **JavaScript `fetch`** (usuarios/productos)
+- **BCrypt** encriptación de contraseñas (`BCryptPasswordEncoder`)
+- **Spring Security** con `SecurityConfig` (permite inter-service calls)
+- **RestTemplate** comunicación sincrónica entre microservicios
 - **Prevención de SQL Injection** con `PreparedStatement`
 - **Validación en frontend Y backend** (Defense in Depth)
 - **Programación por capas** y **Documentación Javadoc**
+- **Patrón Service Locator** para comunicación cross-service
 
 ---
 

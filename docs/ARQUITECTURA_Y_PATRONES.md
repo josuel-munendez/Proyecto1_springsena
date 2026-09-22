@@ -18,18 +18,28 @@
 > **Thymeleaf** (MVC), a diferencia de usuarios/productos (JDBC puro + `fetch`). Detalle en
 > `SPRING_REST_DOCUMENTATION.md` (sección 14) y `MICROSERVICIOS.md`.
 
-**¿Por qué son microservicios?** Cada uno es un proyecto Maven independiente con su propio proceso, su propio puerto y su propia base de datos (**patrón Database-per-Service**). Si uno cae, los demás siguen vivos. La evidencia física de la separación: puertos distintos + BD distintas.
+ **¿Por qué son microservicios?** Cada uno es un proyecto Maven independiente con su propio proceso, su propio puerto y su propia base de datos (**patrón Database-per-Service**). Si uno cae, los demás siguen vivos. La evidencia física de la separación: puertos distintos + BD distintas. Además, se comunican entre sí vía REST (`RestTemplate`).
 
 ```
-   [Navegador]                [Postman]
-       │ fetch                     │ HTTP
-       ▼                           ▼
- ┌──────────────┐  ┌──────────────┐  ┌──────────────┐
- │ ms-usuarios  │  │ ms-productos │  │ ms-          │
- │ :8081        │  │ :8082        │  │ parqueadero  │
- │ mi_base_datos│  │ db_productos │  │ :8080        │
- └──────────────┘  └──────────────┘  └──────────────┘
-  Procesos separados · BD separadas · Deploy independiente
+  ms-parqueadero (8080)     ms-usuarios (8081)       ms-productos (8082)
+  ┌───────────────────┐     ┌───────────────────┐     ┌───────────────────┐
+  │ ControllerVehiculo│     │ UsuarioController │     │ControllerProducto │
+  │  + InterService   │     │  + InterService   │     │  + InterService   │
+  │    Client         │     │    Client         │     │    Client         │
+  └────────┬──────────┘     └────────┬──────────┘     └────────┬──────────┘
+           │  GET /api/usuarios      │                         │
+           ├────────────────────────►│                         │
+           │  GET /api/productos     │                         │
+           ├─────────────────────────┼────────────────────────►│
+           │                         │  GET /api/vehiculos     │
+           │◄────────────────────────┼─────────────────────────┤
+           │                         │  GET /api/productos     │
+           │                         ├────────────────────────►│
+           │                         │  GET /api/vehiculos     │
+           │◄────────────────────────┼─────────────────────────┤
+  ┌────────┴──────────┐     ┌────────┴──────────┐     ┌────────┴──────────┐
+  │  H2 (memoria)     │     │  MySQL            │     │  MySQL            │
+  └───────────────────┘     └───────────────────┘     └───────────────────┘
 ```
 
 ---
@@ -128,18 +138,14 @@ Esto produce:
 
 ---
 
-## 6. Seguridad aplicada vs pendiente
+## 6. Seguridad aplicada
 
-**Aplicado hoy**
 - ✅ Sentencias parametrizadas (anti SQL Injection).
 - ✅ Validación en backend además del frontend.
 - ✅ Credenciales fuera de la lógica de negocio (en la capa de persistencia).
-
-**Pendiente (fase 2 — ya identificado en TAREAS_PENDIENTES.md)**
-- ⏳ `@Value` para inyectar URL/usuario/contraseña desde application.properties.
-- ⏳ Logger SLF4J en lugar de `System.out.println` / `printStackTrace`.
-- ⏳ BCrypt para contraseñas + DTOs que oculten campos sensibles.
-- ⏳ Paginación (`LIMIT ? OFFSET ?`) y códigos de estado HTTP completos (ResponseEntity).
+- ✅ **BCrypt** para contraseñas (`BCryptPasswordEncoder` en `PasswordService`).
+- ✅ **SecurityConfig** (`permitAll()`) para permitir inter-service calls.
+- ✅ **DTOs** que ocultan campos sensibles (password hasheado en respuestas).
 
 ---
 

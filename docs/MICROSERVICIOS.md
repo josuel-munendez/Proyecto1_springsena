@@ -62,18 +62,67 @@ bases de datos en MySQL + una en memoria. Si `productos` cae, `usuarios` sigue v
 
 ## 3. ¿Es realmente una arquitectura de microservicios completa?
 
-**Parcialmente.** Se cumple la parte de **independencia** (procesos, puertos y BDs
-separadas), que es el requisito mínimo señalado por el profesor. Sin embargo, para que
-sea un sistema de microservicios **integrado** faltaría:
+**Sí.** Se cumple tanto la **independencia** (procesos, puertos y BDs separadas) como
+la **comunicación entre servicios por REST**:
 
-1. **Comunicación entre ellos por REST** (`RestTemplate`) — p. ej. que `ms-parqueadero`
-   consulte el saldo de un usuario en `ms-usuarios`.
-2. **Un API REST** en `vehiculos` (hoy usa Thymeleaf, no `@RestController`).
-3. **Opcional para el trimestre:** Gateway / API Gateway, registro de servicios,
-   balanceo de carga, Docker.
+1. ✅ **Comunicación REST** (`RestTemplate` + `InterServiceClient`) — cada servicio
+   consulta datos de los otros dos vía HTTP.
+2. ✅ **API REST** en los 3 servicios — vehiculos expone `/api/vehiculos` además de Thymeleaf.
+3. ✅ **Endpoint `/resumen`** en cada servicio — consolida datos de los 3 en una sola respuesta.
+4. ✅ **SecurityConfig** — permite inter-service calls sin autenticación.
+5. ✅ **BCrypt** — encriptación de contraseñas en ms-usuarios.
+6. ✅ **Paginación** — JDBC LIMIT/OFFSET (usuarios, productos) + JPA Pageable (vehículos).
 
-> Para la sustentación del **trimestre** basta con demonstrar 2+ proyectos en puertos
-> distintos y comunicación REST entre al menos dos. Ver `ROADMAP_Y_PENDIENTES.md`.
+### Diagrama de comunicación
+
+```
+  ms-parqueadero (8080)     ms-usuarios (8081)       ms-productos (8082)
+  ┌───────────────────┐     ┌───────────────────┐     ┌───────────────────┐
+  │ ControllerVehiculo│     │ UsuarioController │     │ControllerProducto │
+  │  + InterService   │     │  + InterService   │     │  + InterService   │
+  │    Client         │     │    Client         │     │    Client         │
+  └────────┬──────────┘     └────────┬──────────┘     └────────┬──────────┘
+           │                         │                         │
+           │  GET /api/usuarios      │                         │
+           ├────────────────────────►│                         │
+           │                         │                         │
+           │  GET /api/productos     │                         │
+           ├─────────────────────────┼────────────────────────►│
+           │                         │                         │
+           │                         │  GET /api/vehiculos     │
+           │◄────────────────────────┼─────────────────────────┤
+           │                         │                         │
+           │                         │  GET /api/productos     │
+           │                         ├────────────────────────►│
+           │                         │                         │
+           │                         │  GET /api/vehiculos     │
+           │◄────────────────────────┼─────────────────────────┤
+           │                         │                         │
+  ┌────────┴──────────┐     ┌────────┴──────────┐     ┌────────┴──────────┐
+  │  H2 (memoria)     │     │  MySQL            │     │  MySQL            │
+  │  tabla: vehiculo  │     │  mi_base_datos    │     │  db_productos     │
+  └───────────────────┘     └───────────────────┘     └───────────────────┘
+```
+
+### Cómo funciona la comunicación
+
+Cada `InterServiceClient` usa `RestTemplate.getForObject()` para hacer GET a los
+otros servicios. Si un servicio no está disponible, retorna `List.of()` (fail-open).
+
+El endpoint `/resumen` de cada servicio consolida todo:
+
+```json
+// GET http://localhost:8080/vehiculos/api/vehiculos/resumen
+{
+  "microservicio": "ms-parqueadero",
+  "vehiculos": [...],    ← datos propios del H2
+  "usuarios": [...],     ← obtenidos de ms-usuarios (8081)
+  "productos": [...]     ← obtenidos de ms-productos (8082)
+}
+```
+
+> Para la sustentación del **trimestre** se demuestran 3 proyectos en puertos distintos
+> con comunicación REST entre los tres. Ver `ROADMAP_Y_PENDIENTES.md`.
 
 ---
 
