@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.usuarios.models.Usuario;
 import com.usuarios.persistence.UsuarioPersistency;
+import com.usuarios.security.PasswordService;
 
 /**
  * ══════════════════════════════════════════════════════════
@@ -43,10 +44,12 @@ public class UsuarioBL implements IUsuarioBL {
      * en TODOS los constructores y evita reasignaciones accidentales.
      */
     private final UsuarioPersistency persistence;
+    private final PasswordService passwordService;
 
     /** Constructor por defecto: usa su propia persistencia real. */
     public UsuarioBL() {
         this.persistence = new UsuarioPersistency();
+        this.passwordService = new PasswordService();
     }
 
     /**
@@ -56,6 +59,7 @@ public class UsuarioBL implements IUsuarioBL {
      */
     public UsuarioBL(UsuarioPersistency persistence) {
         this.persistence = persistence;
+        this.passwordService = new PasswordService();
     }
 
     /**
@@ -110,6 +114,10 @@ public class UsuarioBL implements IUsuarioBL {
      */
     public boolean registrarUsuario(Usuario u) {
         if (validarUsuario(u)) {
+            // Encriptar contraseña con BCrypt antes de guardar
+            if (u.getPassword() != null && !u.getPassword().isBlank()) {
+                u.setPassword(passwordService.hashPassword(u.getPassword()));
+            }
             return persistence.guardarUsuario(u);
         }
         return false;
@@ -144,6 +152,11 @@ public class UsuarioBL implements IUsuarioBL {
             return false;
         }
         if (validarUsuario(u)) {
+            // Encriptar contraseña si se proporcionó una nueva (no es BCrypt hash)
+            if (u.getPassword() != null && !u.getPassword().isBlank()
+                    && !u.getPassword().startsWith("$2a$")) {
+                u.setPassword(passwordService.hashPassword(u.getPassword()));
+            }
             return persistence.actualizarUsuario(u);
         }
         return false;
@@ -183,5 +196,30 @@ public class UsuarioBL implements IUsuarioBL {
     @Override
     public List<Usuario> listarPaginado(int pagina, int tamanio) {
         return persistence.listarPaginado(pagina, tamanio);
+    }
+
+    /**
+     * LOGIN — Autentica un usuario por correo y contraseña.
+     * Usa BCrypt para verificar la contraseña hasheada.
+     *
+     * @param correo           correo electrónico del usuario.
+     * @param passwordPlano    contraseña en texto plano.
+     * @return el usuario si las credenciales son válidas, null si no.
+     */
+    public Usuario login(String correo, String passwordPlano) {
+        if (correo == null || correo.isBlank() || passwordPlano == null || passwordPlano.isBlank()) {
+            System.out.println("Error: correo y contraseña son obligatorios.");
+            return null;
+        }
+        Usuario usuario = persistence.obtenerPorCorreo(correo);
+        if (usuario == null) {
+            System.out.println("Error: usuario no encontrado.");
+            return null;
+        }
+        if (passwordService.verifyPassword(passwordPlano, usuario.getPassword())) {
+            return usuario;
+        }
+        System.out.println("Error: contraseña incorrecta.");
+        return null;
     }
 }

@@ -146,4 +146,18 @@ public class UsuarioController {
             @RequestParam(defaultValue = "10") int size) {
         return bl.listarPaginado(page, size);
     }
+
+    /**
+     * POST /api/usuarios/login
+     * Autentica un usuario con correo y contraseña (BCrypt).
+     *
+     * @param body JSON con "correo" y "password".
+     * @return el usuario si es válido, o null (el frontend maneja el error).
+     */
+    @PostMapping("/login")
+    public Usuario login(@RequestBody java.util.Map<String, String> body) {
+        String correo = body.get("correo");
+        String password = body.get("password");
+        return bl.login(correo, password);
+    }
 }

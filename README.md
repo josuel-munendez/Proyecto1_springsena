@@ -167,11 +167,11 @@ Cada microservicio incluye además su propio `README.md` y Javadoc en el código
 | Validación frontend + backend                                 | ✅      |
 | Documentación de código (Javadoc) y docs/                     | ✅      |
 | CRUD de 3 entidades (usuarios, productos, vehículos)          | ✅      |
-| Arquitectura de microservicios (proyectos + puertos propios)  | 🟡 Parcial |
-| Encriptación de datos (contraseñas)                           | ⏳ Pendiente |
-| Paginación de datos                                           | ⏳ Pendiente |
-| Comunicación entre microservicios (REST)                      | ⏳ Pendiente |
-| Pruebas con Postman (colección + capturas)                    | 🟡 Parcial |
+| Arquitectura de microservicios (proyectos + puertos propios)  | ✅      |
+| Encriptación de datos (contraseñas BCrypt)                    | ✅      |
+| Paginación de datos (JDBC LIMIT/OFFSET + JPA Pageable)        | ✅      |
+| Comunicación entre microservicios (REST RestTemplate)         | ✅      |
+| Pruebas con Postman (colección + capturas)                    | ✅      |
 
 > Para el detalle completo y el plan de cierre, ver
 > [`docs/ROADMAP_Y_PENDIENTES.md`](docs/ROADMAP_Y_PENDIENTES.md).

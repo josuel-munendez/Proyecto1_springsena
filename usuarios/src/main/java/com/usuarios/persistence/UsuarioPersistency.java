@@ -70,19 +70,19 @@ public class UsuarioPersistency {
 
         // Text block (Java 15+): permite escribir SQL multilínea legible.
         String sql = """
-                INSERT INTO usuario (nombre, direccion, telefono, correo, saldo)
-                VALUES (?, ?, ?, ?, ?)
+                INSERT INTO usuario (nombre, direccion, telefono, correo, saldo, password)
+                VALUES (?, ?, ?, ?, ?, ?)
                 """;
 
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement statement = connection.prepareStatement(sql)) {
 
-            // Se asignan los `?` EN ORDEN, empezando en 1 (no en 0).
             statement.setString(1, u.getNombre());
             statement.setString(2, u.getDireccion());
             statement.setInt(3, u.getTelefono());
             statement.setString(4, u.getCorreo());
             statement.setInt(5, u.getSaldo());
+            statement.setString(6, u.getPassword() != null ? u.getPassword() : "");
 
             if (statement.executeUpdate() > 0) {
                 return true;
@@ -131,7 +131,7 @@ public class UsuarioPersistency {
 
         String sql = """
                 UPDATE usuario
-                SET nombre = ?, direccion = ?, telefono = ?, correo = ?, saldo = ?
+                SET nombre = ?, direccion = ?, telefono = ?, correo = ?, saldo = ?, password = ?
                 WHERE id = ?
                 """;
 
@@ -143,8 +143,8 @@ public class UsuarioPersistency {
             statement.setInt(3, u.getTelefono());
             statement.setString(4, u.getCorreo());
             statement.setInt(5, u.getSaldo());
-            // El último `?` corresponde al WHERE: sin él actualizaría TODAS las filas.
-            statement.setLong(6, u.getId());
+            statement.setString(6, u.getPassword() != null ? u.getPassword() : "");
+            statement.setLong(7, u.getId());
 
             if (statement.executeUpdate() > 0) {
                 return true;
@@ -167,7 +167,7 @@ public class UsuarioPersistency {
         List<Usuario> usuarios = new ArrayList<>();
 
         String sql = """
-                SELECT id, nombre, direccion, telefono, correo, saldo
+                SELECT id, nombre, direccion, telefono, correo, saldo, password
                 FROM usuario
                 """;
 
@@ -198,7 +198,7 @@ public class UsuarioPersistency {
     public Usuario obtenerUsuario(Long id) {
 
         String sql = """
-                SELECT id, nombre, direccion, telefono, correo, saldo
+                SELECT id, nombre, direccion, telefono, correo, saldo, password
                 FROM usuario
                 WHERE id = ?
                 """;
@@ -235,7 +235,7 @@ public class UsuarioPersistency {
         int offset = (pagina - 1) * tamanio;
 
         String sql = """
-                SELECT id, nombre, direccion, telefono, correo, saldo
+                SELECT id, nombre, direccion, telefono, correo, saldo, password
                 FROM usuario
                 LIMIT ? OFFSET ?
                 """;
@@ -281,7 +281,40 @@ public class UsuarioPersistency {
         usuario.setTelefono(rs.getInt("telefono"));
         usuario.setCorreo(rs.getString("correo"));
         usuario.setSaldo(rs.getInt("saldo"));
+        usuario.setPassword(rs.getString("password"));
 
         return usuario;
+    }
+
+    /**
+     * READ — Devuelve un usuario por su correo electrónico.
+     * Útil para autenticación/login.
+     *
+     * @param correo correo electrónico buscado.
+     * @return el usuario encontrado, o null si no existe.
+     */
+    public Usuario obtenerPorCorreo(String correo) {
+
+        String sql = """
+                SELECT id, nombre, direccion, telefono, correo, saldo, password
+                FROM usuario
+                WHERE correo = ?
+                """;
+
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setString(1, correo);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    return mapearFila(resultSet);
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
